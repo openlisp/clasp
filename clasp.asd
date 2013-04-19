@@ -76,100 +76,100 @@
                                    "matrix-system"))
                                    
                                    
-               (:file "device-capacitor"
+               (:file "device/device-capacitor"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
                                    
-               (:file "device-resistor"
+               (:file "device/device-resistor"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))
 
-               (:file "device-thermistor"
+               (:file "device/device-thermistor"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))
                                              
-               (:file "device-source-voltage"
+               (:file "device/device-source-voltage"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system")) 
 
-               (:file "device-source-volfun"
+               (:file "device/device-source-volfun"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))                                                                      
 
-               (:file "device-source-current"
+               (:file "device/device-source-current"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))                                                                      
 
-               (:file "device-inductor"
+               (:file "device/device-inductor"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
 
-               (:file "device-diode"
+               (:file "device/device-diode"
                       :depends-on ("package"
                                    "net"
                                    "symbol-par"
                                    "matrix-system"))          
 
 
-               (:file "device-resistor-nonlinear"
+               (:file "device/device-resistor-nonlinear"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
 
-               (:file "device-capacitor-nonlinear"
+               (:file "device/device-capacitor-nonlinear"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
 
 
-               (:file "device-diode-simple"
+               (:file "device/device-diode-simple"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
 
-               (:file "device-diode-simple2"
+               (:file "device/device-diode-simple2"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
 
-               (:file "device-diode-simple-zener"
+               (:file "device/device-diode-simple-zener"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
 
-               (:file "device-resistor-fun"
+               (:file "device/device-resistor-fun"
                       :depends-on ("package"
                                    "net"
                                    "matrix-system"))          
 
-               (:file "devices"
+               (:file "device/devices"
                       :depends-on ("package"
                                    "net"
-                                   "device-source-volfun"
-                                   "device-source-current"
-                                   "device-capacitor"
-                                   "device-resistor"
-                                   "device-thermistor"
-                                   "device-inductor"
-                                   "device-source-voltage"
-                                   "device-diode"
-                                   "device-resistor-nonlinear"
-                                   "device-resistor-fun"
-                                   "device-diode-simple"
-                                   "device-diode-simple2"
-                                   "device-diode-simple-zener"
-                                   "device-capacitor-nonlinear"
-                                   "device-resistor-nonlinear"))
+                                   "device/device-source-volfun"
+                                   "device/device-source-current"
+                                   "device/device-capacitor"
+                                   "device/device-resistor"
+                                   "device/device-thermistor"
+                                   "device/device-inductor"
+                                   "device/device-source-voltage"
+                                   "device/device-diode"
+                                   "device/device-resistor-nonlinear"
+                                   "device/device-resistor-fun"
+                                   "device/device-diode-simple"
+                                   "device/device-diode-simple2"
+                                   "device/device-diode-simple-zener"
+                                   "device/device-capacitor-nonlinear"
+                                   "device/device-resistor-nonlinear"))
 
 
-               (:file "solver-damped-newton-raphson"
+               (:file "solver/solver-damped-newton-raphson"
                       :depends-on ("package"
                                    "symbol-var"
                                    "symbol-par"
@@ -178,7 +178,7 @@
                                    "matrix-system"
                                    ))          
 
-               (:file "solver-bdf"
+               (:file "solver/solver-bdf"
                       :depends-on ("package"
                                    "symbol-var"
                                    "symbol-par"
@@ -190,7 +190,7 @@
 
 
 
-               (:file "solver-particle-swarm"
+               (:file "solver/solver-particle-swarm"
                       :depends-on ("package"
                                    "symbol-var"
                                    "symbol-par"
@@ -199,7 +199,7 @@
                                    "matrix-system"
                                    ))          
 
-               (:file "solver-evolutionary-newton-raphson"
+               (:file "solver/solver-evolutionary-newton-raphson"
                       :depends-on ("package"
                                    "symbol-var"
                                    "symbol-par"
@@ -208,7 +208,7 @@
                                    "matrix-system"
                                    ))   
 
-               (:file "solver-newton-raphson"
+               (:file "solver/solver-newton-raphson"
                       :depends-on ("package"
                                    "symbol-var"
                                    "symbol-par"
@@ -217,7 +217,7 @@
                                    "matrix-system"
                                    ))  
 
-               (:file "solver-luf"
+               (:file "solver/solver-luf"
                       :depends-on ("package"
                                    "symbol-var"
                                    "symbol-par"
@@ -227,46 +227,46 @@
                                    ))  
 
 
-               (:file "solvers"
+               (:file "solver/solvers"
                       :depends-on ("package"
-                                   "solver-damped-newton-raphson"
-                                   "solver-particle-swarm"
-                                   "solver-evolutionary-newton-raphson"
-                                   "solver-newton-raphson"
-                                   "solver-luf"))
+                                   "solver/solver-damped-newton-raphson"
+                                   "solver/solver-particle-swarm"
+                                   "solver/solver-evolutionary-newton-raphson"
+                                   "solver/solver-newton-raphson"
+                                   "solver/solver-luf"))
                           
 
-               (:file "test"
+               (:file "test/test"
                       :depends-on ("package"
                                    "symbol-var"
                                    "symbol-par"
-                                   "analysis-dc"
-                                   "analysis-dc-sweep"))
+                                   "analysis/analysis-dc"
+                                   "analysis/analysis-dc-sweep"))
                                    
 
 
                       
-               (:file "analysis-dc"
+               (:file "analysis/analysis-dc"
                       :depends-on ("package"
 ;                                   "matrix-system"
-                                   "devices"
-                                   "solvers"))
+                                   "device/devices"
+                                   "solver/solvers"))
 
-               (:file "analysis-dc-sweep"
+               (:file "analysis/analysis-dc-sweep"
                       :depends-on ("package"
 ;;                                   "symbol-var"
 ;;                                   "symbol-par"
 ;;                                   "matrix-system"
-                                   "devices"
-                                   "solvers"))
+                                   "device/devices"
+                                   "solver/solvers"))
                                    
 
 
-               (:file "analysis-trans"
+               (:file "analysis/analysis-trans"
                       :depends-on ("package"
 ;                                   "matrix-system"
-                                   "devices"
-                                   "solvers"))
+                                   "device/devices"
+                                   "solver/solvers"))
 
 
                                                                       
