@@ -1,16 +1,43 @@
- (in-package #:clasp)
+;;;; Copyright (c) 2013 David Cerny, All Rights Reserved
+;;;;
+;;;; Redistribution and use in source and binary forms, with or without
+;;;; modification, are permitted provided that the following conditions
+;;;; are met:
+;;;;
+;;;;   * Redistributions of source code must retain the above copyright
+;;;;     notice, this list of conditions and the following disclaimer.
+;;;;
+;;;;   * Redistributions in binary form must reproduce the above
+;;;;     copyright notice, this list of conditions and the following
+;;;;     disclaimer in the documentation and/or other materials
+;;;;     provided with the distribution.
+;;;;
+;;;; THIS SOFTWARE IS PROVIDED BY THE AUTHOR 'AS IS' AND ANY EXPRESSED
+;;;; OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+;;;; WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+;;;; ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+;;;; DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+;;;; DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+;;;; GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+;;;; INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+;;;; WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+;;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+;;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(in-package #:clasp)
 
 
-(defparameter matrix-max-index 2000)
+(defparameter matrix-max-index 2000) ; Maximal number of rows/colums in matrix
 
 
-;function for easy variable definition
+;;; Function for easy variable node definition
 (defun make-var-node (name num)
   (intern 
     (concatenate 'string
       (string-upcase (format nil "~s" name))
       (string-upcase (format nil "~s" num)))))
 
+;;; Function for easy variable name definition
 (defun make-var-name (name str)
   (intern 
     (concatenate 'string
@@ -19,7 +46,10 @@
 
 
 
-;; tu matici by se vyplailo udelat uz s nulovymi prvky
+;;;
+;;; Class Matrix system
+;;; It would be benefical to make matrix with zero value on init.
+;;;
 (defclass class-matrix-system () 
   ((arrays
     :accessor arrays
@@ -56,6 +86,10 @@
     :initform 1)
     ))
     
+
+;;;
+;;; Class MAtrix Array
+;;;    
 (defclass class-arrays () 
   ((g-array
     :accessor g-array
@@ -85,14 +119,14 @@
 ;  )
 
 
-;get rhs veccotr
+;;; return RHS vector
 (defmethod get-sub-rhsl-start-vector ((m class-matrix-system) start-col &optional (cols  (- (size m) start-col )))
   (subseq (rhsl-start m) start-col (+ cols start-col)))
 
 
 
-;;nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
-;; tj scitani cisel a scitani rovnic resp funkci
+;;; nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-rhsl-start-value ((m class-matrix-system) row op value)
   (setf 
     (aref (rhsl-start m)
@@ -103,7 +137,7 @@
      value  )))
 
 
-;stack vector
+;;; return stack vector
 (defmethod get-sub-stack-vector ((m class-matrix-system) start-col &optional (cols  (- (size m) start-col )))
   (subseq (stack m) start-col (+ cols start-col)))
 
@@ -115,7 +149,7 @@
 ;  (setf (grid:subgrid (rhs m) (list start-row start-col) '(1)) var-vector))
 
 
-;get rhs veccotr
+;;; return RHS vector
 (defmethod get-sub-rhs-equations-vector ((m class-matrix-system) start-col &optional (cols  (- (size m) start-col )))
   (subseq (rhs-equations m) start-col (+ cols start-col)))
 

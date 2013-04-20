@@ -49,6 +49,7 @@
     #:test-simple-diode
     #:test-trans-simple-diode
     #:test-trans-simple-capacitor
+    #:test-trans-ni-simple-capacitor
  
  
     #:test-zener-stabilizator
