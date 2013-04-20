@@ -4,12 +4,16 @@
 ; Capacitor class definition
 (defclass class-capacitor (class-device)
   ((name  :initarg :name
+          :initform (error "Must supply a name of device e.g. R1, C1, D1, ...")
           :accessor name)
    (node+ :accessor node+
+          :initform 1
           :initarg :node+)
    (node- :accessor node-
+          :initform 2
           :initarg :node-)
    (value :accessor value
+          :initform 100
           :initarg :value)))
           
           
@@ -55,7 +59,7 @@
 ; example:
 ; (C "C1" 1 2 100)
 (defun C (name node+ node- value)
-  (print "wja")
+  (print "Device Model - Ideal Capacitor")
   (net-insert-device 
     (make-instance 'class-capacitor 
                 :name name

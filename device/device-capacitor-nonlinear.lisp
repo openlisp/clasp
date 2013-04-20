@@ -1,12 +1,11 @@
  (in-package #:clasp)
 
 
-
-
 ; Capacitor class definition
 (defclass class-capacitor-nonlinear (class-device)
-  ((name :initarg :name
-    :initform (error "Must supply a name of device e.g. R1, C1, D1, ..."))
+  ((name  :initarg :name
+          :initform (error "Must supply a name of device e.g. R1, C1, D1, ...")
+          :accessor name)
    (node+ :accessor node+
           :initform 1
           :initarg :node+)
@@ -17,16 +16,17 @@
           :initform 100
           :initarg :value)))
           
-
-(defmethod capacitor-nonliner-charge ((capacitor class-capacitor-nonlinear) v+ v-)
+;;; q = c * ( 1 + u^2 )
+(defmethod capacitor-nonlinear-charge ((capacitor class-capacitor-nonlinear) v+ v-)
   #'(lambda () 
     (*  (+ (expt (- (eval v+) (eval v-)) 2) 1)  (value capacitor))))  
-;q = c*(1+u^2)
-      
+
+;;; +dq+= 2 * u * c     
 (defmethod capacitor-nonlinear-charge-dv+ ((capacitor class-capacitor-nonlinear) v+ v-)
   #'(lambda () 
     (* (-  (eval v+) (eval v-))  (value capacitor) 2)))  
-   
+
+;;; -dq= -2 * u * c  
 (defmethod capacitor-nonlinear-charge-dv- ((capacitor class-capacitor-nonlinear) v+ v-)
   #'(lambda () 
     (* (-  (eval v+) (eval v-))  (value capacitor) -2)))
@@ -68,6 +68,8 @@
     ;    (set-z-value m q n- #'-   1)
         
               ;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
+
+
         (set-equations-value m q (capacitor-nonlinear-charge d v+ v-)) 
 
         (set-d-value m q  v+  (capacitor-nonlinear-charge-dv+ d v+ v-))        
@@ -84,7 +86,8 @@
 ; (c name node1 node2 value)
 ; example:
 ; (C "C1" 1 2 100)
-(defun cnl (name node+ node- value)
+(defun CR (name node+ node- value)
+  (print "Device Model - Nonlinear Capacitor")
   (net-insert-device 
     (make-instance 'class-capacitor-nonlinear 
                 :name name

@@ -40,6 +40,20 @@
 ;            :initform (error "Must supply a source voltage.")
 ;            :initarg :voltage)))     
           
+
+  (defmethod voltage-source-polarity+ (v+ v-)
+  #'(lambda ()      
+      (COND
+        ((< (- (eval v+) (eval v-)) 0) 1)
+        (T -1)))) 
+
+
+  (defmethod voltage-source-polarity- (v+ v-)
+  #'(lambda ()      
+      (COND
+        ((< (- (eval v+) (eval v-)) 0) -1)
+        (T 1)))) 
+       
           
 ; y  | A       | voltage-var |   | rhs-current |
 ;---------- *  |-------------| = |-------------|    
@@ -51,10 +65,26 @@
         (volfun   (volfun d)))
  (print "voltage g matrix")
 ;G matrix
-        (set-g-value m i  v+  #'+  1)
-        (set-g-value m i  v-  #'-  1)
+
+    
+
+       ; (set-g-value m i  v+  #'+  1)
+       ; (set-g-value m i  v-  #'-  1)
         (set-g-value m v+ i   #'+  1)
         (set-g-value m v- i   #'-  1)
+
+
+        (set-d-value m i  v+  (voltage-source-polarity+ v+ v-))        
+        (set-d-value m i  v-  (voltage-source-polarity- v+ v-))
+
+;; here must be orientation misteko othervise I dont know
+;; Documentation and code has differend deffinition
+       ; (set-g-value m i  v+  #'+  1)
+      ;  (set-g-value m i  v-  #'-  1)
+      ;  (set-g-value m v+ i   #'+  1)
+      ;  (set-g-value m v- i   #'-  1)
+
+
 ;RHS        
 ;(print "voltage rhs vector")
         (set-rhs-equations-value m i volfun)))

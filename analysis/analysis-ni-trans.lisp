@@ -60,10 +60,28 @@
  ;   (print "4*")    
 
     ;; Newton-Raphson computation fo given time. All resulting values are saved to vtrans vector for time 0.
-    (solver-newton-raphson m vtrans (1- (size m)) *residual* 50)
+    ;;(solver-newton-raphson m vtrans (1- (size m)) *residual* 50)
+;; coerce converts something to something else
+(setf i (1- (size m)))
+      (let* (        
+         (jacobian-matrix
+           (grid:map-n-grids 
+                :sources 
+                  (list 
+                    (list 
+                      (get-sub-g-array m 1 1 i i) nil)                 
+                    (list     
+                      (grid:map-grid 
+                           :source (get-sub-d-array m 1 1 i i)
+                           :element-function (lambda (x) (coerce (apply #'+ (mapcar #'funcall x))  'double-float)))  nil)                           
+                           ) 
+                :combination-function (lambda (a b) (+ a b )))))
+                      
+      (print "jacobian")
+      (print jacobian-matrix)) 
+      (print "get-sub-d-array")
+      (print  (get-sub-d-array m 1 1 i i))
 
-
-    (print m)
 
 ;    (print "size m ")
 ;    (print (size m))

@@ -26,9 +26,8 @@
 
 (in-package #:clasp)
 
-
-(defparameter matrix-max-index 2000) ; Maximal number of rows/colums in matrix
-
+;;; Maximal number of rows/colums in matrix
+(defparameter matrix-max-index 2000) 
 
 ;;; Function for easy variable node definition
 (defun make-var-node (name num)
@@ -293,7 +292,7 @@
 ;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-d-value ((m class-matrix-system) row col value)
   (setf (linear m) nil)
-    (push 
+    (push  ; this push adds all new function after each other
       value
       (aref (d-array (arrays m)) 
         (get-position m row) 

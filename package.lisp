@@ -50,6 +50,8 @@
     #:test-trans-simple-diode
     #:test-trans-simple-capacitor
     #:test-trans-ni-simple-capacitor
+    #:simple-test-two-way-rectifier
+    #:simple-test-two-way-rectifier-two 
  
  
     #:test-zener-stabilizator

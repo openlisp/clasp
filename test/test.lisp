@@ -91,7 +91,7 @@
 ;  (EF "E1" 1 0 #'(lambda () *TIME*))
   (E "E1" 1 0 5)   
   (R "R1" 1 2 500)  
-  (C "C1"  2 0 2e-8)
+  (CR "C1"  2 0 2e-8)
   (trans-ni 0.0 0.1 5.0 'newton-raphson) 
 )
 
@@ -477,6 +477,31 @@
   (dc-sweep 0.0 0.1 5.0 'evolutionary-newton-raphson 10)   (print "end")
   t 
   )
+
+
+; 5 Two way rectifier
+(defun simple-test-two-way-rectifier-two ()
+  (net-clear)
+  (EF "E1" 1 2 #'(LAMBDA ( ) (* (SIN *TIME*))))
+  (DS2 "D1"  1 0)
+  (DS2 "D2"  1 4)
+  (DS2 "D3"  0 2)
+  (DS2 "D4"  2 4)
+  (R "RS2" 4 0 1000)  
+   
+  (print "generating deviced finished")
+  (print-string-output "test-simple-diode - Newton Raphson")
+  (print-string-iter "test-simple-diode - Newton Raphson")  
+  (dc-sweep 0.0 0.1 5.0 'newton-raphson)
+
+  t) 
+
+
+
+
+
+
+
 
 
 ; 5 Two way rectifier

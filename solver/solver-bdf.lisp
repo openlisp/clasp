@@ -43,7 +43,7 @@
               (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.0d0))
       
     
-    
+    ; here should be probably some random pregenerated values, or values from previous DC analysis
     (old-rhs-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.5d0)))
 
 
@@ -373,29 +373,10 @@
          
 
 
-    
- 
          
          
          (print "integration order 1 finishes")))
        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

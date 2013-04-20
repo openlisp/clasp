@@ -34,13 +34,13 @@
   #'(lambda () 
       (COND
         ((< (- (eval v+) (eval v-)) 0) 0)
-        (t (* (exp (/ (- (eval v+) (eval v-)) 26e-3))  (/ 10e-12  26e-3)))))) 
+        (T (* (exp (/ (- (eval v+) (eval v-)) 26e-3))  (/ 10e-12  26e-3)))))) 
    
 (defmethod diode-simple2-current-dv- ((diode class-diode-simple2) v+ v-)
   #'(lambda ()      
       (COND
         ((< (- (eval v+) (eval v-)) 0) 0)
-        (t (* (exp (/ (- (eval v+) (eval v-)) 26e-3))  (/ -10e-12  26e-3) ))))) 
+        (T (* (exp (/ (- (eval v+) (eval v-)) 26e-3))  (/ -10e-12  26e-3) ))))) 
        
           
    
@@ -68,7 +68,7 @@
         
       ;factory starting predict   
  
-        (set-rhsl-start-value m i #'+ 0.05d0)
+        (set-rhsl-start-value m i #'+ 0.1562d0)
         
          ))
         

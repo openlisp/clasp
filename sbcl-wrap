@@ -13,7 +13,8 @@ BREAK_CHARS="(){}[],^%$#@\"\";''|\\!?"
 
 #sbcl --script "$HOME/.sbcl_completions" |
 
-exec $RLWRAP sbcl 
+	exec $RLWRAP sbcl --load init.lisp 
+
 #else # permits #!/usr/bin/env sbcl , but breaks sbcl --help, etc.
 #  exec sbcl --script $*
 #fi
