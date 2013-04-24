@@ -38,6 +38,8 @@
 
 (defmethod solver-newton-raphson ((m class-matrix-system) (var-arr class-variables) i  epsilon max-iter)
 (print "solver-newton-raphson")
+
+
   (let (
     (linear-matrices   
       (grid:map-n-grids 
@@ -45,11 +47,12 @@
              (list 
                (list (get-sub-g-array m 1 1 i i) nil)
                (list (get-sub-e-array m 1 1 i i) nil))
-           :combination-function (lambda (a b ) (+ a b))))
+           :combination-function (lambda (a b) (+ a b))))
     (residual 0)       
-    (new-value-vector     
-               (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.0d0)) 
-    (old-rhs-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.5d0))) 
+    (new-value-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.0d0)) 
+    (old-rhs-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.5d0)))
+
+ 
 
 (LET ((RNG (gsl:MAKE-RANDOM-NUMBER-GENERATOR gsl:+mt19937+ 1)))
     (setf new-value-vector 
@@ -66,19 +69,32 @@
           (set (grid:gref (stack m) k)  (grid:gref new-value-vector (- k 1))))	 
 	 do 
 	   
-;	   (print (get-sub-d-array m 1 1 i i))
+	   
  ;      (print "Pos2")
        (let* (
+         (value-linear-matrices 
+            (grid:map-n-grids
+              :sources 
+                (list 
+                  (list linear-matrices nil)
+                  (list     
+                      (grid:map-grid 
+                           :source (get-sub-gd-array m 1 1 i i)
+                           :element-function (lambda (x) (coerce (apply #'+  (mapcar #'funcall x))  'double-float)))  nil))
+                                           :combination-function (lambda (a b ) (+ a b))))  
+
          (jacobian-matrix
            (grid:map-n-grids 
                 :sources 
                   (list 
-                    (list linear-matrices nil)  
+                    (list value-linear-matrices nil)  
+
+
                     (list     
                       (grid:map-grid 
                            :source (get-sub-d-array m 1 1 i i)
                            :element-function (lambda (x) (coerce (apply #'+ (mapcar #'funcall x))  'double-float)))  nil)) 
-                :combination-function (lambda (a b) (+ a b)))) 
+                :combination-function (lambda (a b ) (+ a b)))) 
          ;RHS Vector            
          (rhs-vector 
            (grid:map-n-grids 
@@ -94,7 +110,7 @@
                            :element-function (lambda (x) (coerce  x 'double-float))) nil)                           
                     (list 
                       (gsll:matrix-product 
-                        linear-matrices
+                        value-linear-matrices
                         new-value-vector) nil) ; LINEAR VECTOR  
                     (list ;RHS lineae equations
                       (grid:map-grid 
@@ -102,7 +118,7 @@
                            :element-function (lambda (x) (coerce (apply #'+ (mapcar #'funcall x))  'double-float))) nil))  
                 :combination-function (lambda (a b c d) (- (+ a b) (+ c d )))
                 :destination-specification `((grid:foreign-array ,i) double-float))))              
-;         (print "pos3")
+
       ; (let (
          (setf residual  
            (-        

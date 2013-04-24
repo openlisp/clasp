@@ -87,12 +87,16 @@
     
 
 ;;;
-;;; Class MAtrix Array
+;;; Class Matrix Array
 ;;;    
 (defclass class-arrays () 
   ((g-array
     :accessor g-array
     :initform (grid:make-foreign-array 'double-float :dimensions (list matrix-max-index  matrix-max-index) :initial-element 0.0d0))
+
+   (gd-array
+    :accessor gd-array
+    :initform (make-array (list matrix-max-index matrix-max-index) :initial-element '()))
     
    (e-array
     :accessor e-array
@@ -108,7 +112,9 @@
     
           
     
-;funkce pro vymazani tabulek
+;;; 
+;;; Function for matrix clear (currently commented out)
+;;;
 ;(defmethod clear-matrix ((m class-matrix-system))
 ;  (setf (arrays m) (make-instance 'class-arrays))
 ;  (setf (stack  m) (make-array matrix-max-index ))
@@ -173,8 +179,8 @@
 
 
 
-;;nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
-;; tj scitani cisel a scitani rovnic resp funkci
+;;; nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-rhs-equations-value ((m class-matrix-system) row value)
  (push 
     value
@@ -182,8 +188,8 @@
  
  
 
-;;nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
-;; tj scitani cisel a scitani rovnic resp funkci
+;;; nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-equations-value ((m class-matrix-system) row value)
   (push 
     value
@@ -195,10 +201,10 @@
 
 
     
-;;navrati pozici prvku v matici, kdyz prvek v matici neni navrati max index a prvek do 
-;; matice ulozi
+;;; return position of the element in matrix, If element is missing in matrix 
+;;; it returns max index and element is added as new element in matrix
 (defmethod get-position ((m class-matrix-system) value)
-; (print value)
+;; (print value)
   (let ((old-pos (position-if #'(lambda (x) (equal x value)) (stack m) :end (size m)))
         (new-pos (size m)))
     (cond (old-pos old-pos) 
@@ -210,7 +216,7 @@
       
 
  
-;;nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;; Nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
 ;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-g-value ((m class-matrix-system) row col op value)
 ;  (print row)
@@ -227,7 +233,7 @@
         value )))
  
     
-;;navrati danou hodnotu
+;; Navrati danou hodnotu
 (defmethod get-g-array ((m class-matrix-system))
   (g-array (arrays m)))
   
@@ -237,7 +243,7 @@
 
 
 
-;;nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;; Nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
 ;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-e-value ((m class-matrix-system) row col op value)
   (setf 
@@ -251,11 +257,11 @@
       value )))
  
     
-;;navrati danou hodnotu
+;; navrati danou hodnotu
 (defmethod get-e-array ((m class-matrix-system))
   (e-array (arrays m)))
 
-;;navrati danou hodnotu
+;; navrati danou hodnotu
 (defmethod get-sub-e-array ((m class-matrix-system) start-row start-col rows cols)
   (grid:subgrid (e-array (arrays m)) (list rows cols) (list start-row start-col)))
 
@@ -265,7 +271,7 @@
 
 
 
-;;nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;; nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
 ;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-z-value ((m class-matrix-system) row col op value)
   (setf 
@@ -280,7 +286,7 @@
 
  
     
-;;navrati danou hodnotu
+;; navrati danou hodnotu
 (defmethod get-z-array ((m class-matrix-system))
   (z-array (arrays m)))
 
@@ -288,7 +294,7 @@
   (grid:subgrid (z-array (arrays m)) (list rows cols) (list start-row start-col)))     
      
      
-;;nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;; nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
 ;; tj scitani cisel a scitani rovnic resp funkci
 (defmethod set-d-value ((m class-matrix-system) row col value)
   (setf (linear m) nil)
@@ -298,9 +304,6 @@
         (get-position m row) 
         (get-position m col))))
       
- 
- 
-    
 ;;navrati danou hodnotu
 (defmethod get-d-array ((m class-matrix-system))
   (d-array (arrays m)))     
@@ -310,7 +313,23 @@
      
 
     
-
+     
+;; nastavi hodnotu ; chce to sem zakomponovat specialni plus, kdyz ta hodnota 
+;; tj scitani cisel a scitani rovnic resp funkci
+(defmethod set-gd-value ((m class-matrix-system) row col value)
+  (setf (linear m) nil)
+    (push  ; this push adds all new function after each other
+      value
+      (aref (gd-array (arrays m)) 
+        (get-position m row) 
+        (get-position m col))))
+      
+;; navrati danou hodnotu
+(defmethod get-gd-array ((m class-matrix-system))
+  (gd-array (arrays m)))     
+     
+(defmethod get-sub-gd-array ((m class-matrix-system) start-row start-col rows cols)
+  (grid:subgrid (gd-array (arrays m)) (list rows cols) (list start-row start-col)))  
 
 
      

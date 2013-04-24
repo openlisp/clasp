@@ -26,7 +26,7 @@
 
 (require :asdf)
 
-(print "init")
+(print "CLASP Initialization")
 
 (asdf:operate 'asdf:load-op :clasp)
 (ql:quickload "gsll")

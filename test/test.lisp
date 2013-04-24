@@ -483,7 +483,7 @@
 (defun simple-test-two-way-rectifier-two ()
   (net-clear)
   (EF "E1" 1 2 #'(LAMBDA ( ) (* (SIN *TIME*))))
-  (DS2 "D1"  1 0)
+  (DS2 "D1"  0 1)
   (DS2 "D2"  1 4)
   (DS2 "D3"  0 2)
   (DS2 "D4"  2 4)
