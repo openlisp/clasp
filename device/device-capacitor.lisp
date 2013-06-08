@@ -17,6 +17,7 @@
           :initarg :value)))
           
           
+          
 ;(defun test-device-map-c ()
 ;  (map-dc
 ;    (make-instance 'class-capacitor 

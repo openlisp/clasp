@@ -4,6 +4,7 @@ CLASP is an unusual and efficient usage of functional programming language Commo
 
 
 
+
 # Change Log
 
 ## 22.4. 2012  

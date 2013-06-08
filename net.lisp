@@ -27,6 +27,7 @@
  (in-package #:clasp)
 
 
+
 ; Basic class device, all devicese are inherences of this class
 (defclass class-device () ())
 

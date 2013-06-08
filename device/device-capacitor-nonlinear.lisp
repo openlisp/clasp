@@ -16,6 +16,7 @@
           :initform 100
           :initarg :value)))
           
+          
 ;;; q = c * ( 1 + u^2 )
 (defmethod capacitor-nonlinear-charge ((capacitor class-capacitor-nonlinear) v+ v-)
   #'(lambda () 
