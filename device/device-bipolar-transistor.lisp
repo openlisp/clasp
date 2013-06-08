@@ -6,15 +6,30 @@
   ((name  :initarg :name
           :initform (error "Must supply a name of device e.g. R1, C1, D1, ...")
           :accessor name)
-   (node+ :accessor node+
+   (node-e :accessor node-e
           :initform 1
-          :initarg :node+)
-   (node- :accessor node-
+          :initarg :node-e)
+   (node-c :accessor node-c
           :initform 2
-          :initarg :node-)
-   (value :accessor value
-          :initform 100
-          :initarg :value)))
+          :initarg :node-c)
+   (node-b :accessor node-b
+          :initform 3
+          :initarg :node-b)
+          
+          
+   (alpha-reverse    
+          :accessor alpha-reverse
+          :initarg :alpha-reverse
+          :initform 2.3412e-4)
+
+   (alpha-forward
+          :accessor alpha-forward
+          :initarg :alpha-forward
+          :initform 8.7674e-8)       
+          
+          
+          
+          ))
           
 
 
@@ -86,10 +101,18 @@
 ; YA | Z       | current-var |   | rhs-voltage |             
 ;inductor is shorcut in DC analysis
 (defmethod map-device ((d class-bipolar-transistor) (m class-matrix-system))
-  (let ((v+       (make-var-node  'v (node+ d)))
-        (v-       (make-var-node  'v (node- d)))
-        (q        (make-var-name  'q (name  d)))
-        (c        (value d)))
+     (print "mapping bipolar transistor")
+  (let ((vc       (make-var-node  'v (nodec d)))
+        (vb       (make-var-node  'v (nodeb d)))
+        (ve       (make-var-node  'v (nodee d)))
+        (icc        (make-var-name  'icc (name  d))))        
+        (iec        (make-var-name  'iec (name  d)))
+        
+        (ic        (make-var-name  'ic (name  d)))
+        (ib        (make-var-name  'ib (name  d)))
+        
+        (ie        (make-var-name  'ie (name  d)))
+        
         
         
 
@@ -102,9 +125,9 @@
 
 
         (set-e-value m icc icc #'+   1)
-        (set-e-value m icc iec #'-   ALPHAREVERSE))
+        (set-e-value m icc iec #'-   alpha-reverse)
 
-       (set-e-value m iec icc #'-    ALPHAFORWARD))
+       (set-e-value m iec icc #'-    alpha-forward)
 
         (set-e-value m iec iec #'+   1)
 
@@ -115,10 +138,9 @@
 ;G matrix
 
 ;Z matrix        
-   ;     (set-z-value m q n+ #'+   1)
-    ;    (set-z-value m q n- #'-   1)
-        
-              ;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
+;     (set-z-value m q n+ #'+   1)
+;    (set-z-value m q n- #'-   1)
+;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
 
 ;-------------------
         (set-equations-value m icc (bipolar-transistor-icc d vb ve)) 
@@ -135,21 +157,22 @@
 
         
                         
-                
+                   ))
                     
 
 ; Function for easy capacitor definition
 ; (c name node1 node2 value)
 ; example:
-; (C "C1" 1 2 100)
-(defun BJT (name node+ node- value)
+; (BJT "BJT1" 1 2 3)
+(defun BJT (name node-b node-c node-e)
   (print "Device Model - Bipolar Transistor")
   (net-insert-device 
     (make-instance 'class-bipolar-transistor 
                 :name name
-                :node+ node+
-                :node- node-
-                :value value)
+                :node-b node-b
+                :node-c node-c
+                :node-e node-e
+                )
      name))
                 
 

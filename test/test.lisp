@@ -72,6 +72,20 @@
 )
 
 
+(defun test-trans-bipolar-transistor ()
+  (print "start - test-bipolar-transitor")
+  (net-clear)
+
+;  (EF "E1" 1 0 #'(lambda () *TIME*))
+  (E "E1" 1 0 5)   
+  (R "R1" 1 2 500)  
+  (DS2 "D1"  2 0)
+  (trans 0.0 0.1 5.0 'newton-raphson) 
+)
+
+
+
+
 (defun test-trans-simple-capacitor ()
   (print "start - test-simple-capacitor")
   (net-clear)

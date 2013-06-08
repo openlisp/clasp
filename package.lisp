@@ -54,6 +54,8 @@
     #:test-trans-ni-simple-capacitor
     #:simple-test-two-way-rectifier
     #:simple-test-two-way-rectifier-two 
+    #:test-bipolar-transistor 
+    
  
  
     #:test-zener-stabilizator
