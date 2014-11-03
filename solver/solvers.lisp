@@ -67,11 +67,21 @@
 
 
 
+(defun now ()
+  "This function returns (hour minute second) for right now."
+  (multiple-value-bind (second minute hour day month year)
+      (get-decoded-time)
+    (list year month day hour minute second)))
+
+
 
 (defun print-state (iter argval argval-length residual)
   (with-open-file (stream "output/dc-iter.dat" :direction :output  
                                    :if-exists :APPEND
                                    :if-does-not-exist :create)
+
+
+   (format stream "~%~{~a-~}"  (now))
 
     (format stream "~%~5d;   " iter) 
     (iter:iter (iter:for k from 0 below argval-length) 

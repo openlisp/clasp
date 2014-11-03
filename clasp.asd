@@ -142,7 +142,12 @@
                (:file "device/device-diode-simple-zener"
                       :depends-on ("package"
                                    "net"
-                                   "matrix-system"))          
+                                   "matrix-system"))     
+                                   
+               (:file "device/device-bipolar-transistor"
+                      :depends-on ("package"
+                                   "net"
+                                   "matrix-system"))      
 
                (:file "device/device-resistor-fun"
                       :depends-on ("package"
@@ -166,7 +171,8 @@
                                    "device/device-diode-simple2"
                                    "device/device-diode-simple-zener"
                                    "device/device-capacitor-nonlinear"
-                                   "device/device-resistor-nonlinear"))
+                                   "device/device-resistor-nonlinear"
+                                   "device/device-bipolar-transistor"))
 
 
                (:file "solver/solver-damped-newton-raphson"

@@ -1,7 +1,7 @@
  (in-package #:clasp)
 
 
-; Capacitor class definition
+; Bipolar Transistor class definition
 (defclass class-bipolar-transistor (class-device)
   ((name  :initarg :name
           :initform (error "Must supply a name of device e.g. R1, C1, D1, ...")
@@ -14,19 +14,23 @@
           :initarg :node-c)
    (node-b :accessor node-b
           :initform 3
-          :initarg :node-b)
-          
-          
+          :initarg :node-b)          
    (alpha-reverse    
           :accessor alpha-reverse
           :initarg :alpha-reverse
           :initform 2.3412e-4)
-
    (alpha-forward
           :accessor alpha-forward
           :initarg :alpha-forward
-          :initform 8.7674e-8)       
-          
+          :initform 8.7674e-8)
+   
+   (vt    :accessor vt
+          :initarg :vt
+          :initform 26e-3) 
+                 
+        (is    :accessor is
+          :initarg :is
+          :initform 26e-3)
           
           
           ))
@@ -55,21 +59,21 @@
 
 ;----------------------------------------------------------------------------------
 
-(defmethod bipolar-transistor-ICC ((transistor class-bipolar-transistor) vb ve)
+(defmethod bipolar-transistor-icc ((transistor class-bipolar-transistor) vb ve)
   #'(lambda () 
-    (- (* is (expt (/ (eval vb) (eval ve) vt)))))) 
+    (- (* (is transistor) (exp (/ (eval vb) (eval ve) (vt transistor) ))))))  ; 123 used to be vt it should be from database
 
 
 
 (defmethod bipolar-transistor-ICC-dvb ((transistor class-bipolar-transistor) vb ve)
   #'(lambda () 
-    (/ (* Is (expt (/ (- (eval vb) (eval ve)) vt))) vt)))
+    (/ (* (is transistor) (exp (/ (- (eval vb) (eval ve)) (vt transistor) ))) (vt transistor) )))
 
 
 
 (defmethod bipolar-transistor-ICC-dve ((transistor class-bipolar-transistor) vb ve)
   #'(lambda () 
-    (/ (* Is (expt (/ (- (eval vb) (eval ve)) vt)) -1 ) vt)))
+    (/ (* (is transistor) (exp (/ (- (eval vb) (eval ve)) (vt transistor) )) -1 ) (vt transistor) )))
 
 
 ;------------------------------------------------------------------------------------
@@ -77,18 +81,18 @@
 
 (defmethod bipolar-transistor-IEC ((transistor class-bipolar-transistor) vb vc)
   #'(lambda () 
-    (- (* is (expt (/ (eval vb) (eval vc) vt)))))) 
+    (- (* (is transistor) (exp (/ (eval vb) (eval vc) (vt transistor) )))  )))
 
 
 
-(defmethod bipolar-transistor-charge-IEC-dvb ((transistor class-bipolar-transistor) vb vc)
+(defmethod bipolar-transistor-IEC-dvb ((transistor class-bipolar-transistor) vb vc)
   #'(lambda () 
-    (/ (* Is (expt (/ (- (eval vb) (eval vc)) vt))) vt)))
+    (/ (* (is transistor) (exp (/ (- (eval vb) (eval vc)) (vt transistor) ))) (vt transistor) )))
 
 
-(defmethod bipolar-transistor-charge-IEC-dvc ((transistor class-bipolar-transistor) vb vc)
+(defmethod bipolar-transistor-IEC-dvc ((transistor class-bipolar-transistor) vb vc)
   #'(lambda () 
-    (/ (* Is (expt (/ (- (eval vb) (eval vc)) vt))) vt)))
+    (/ (* (is transistor) (exp (/ (- (eval vb) (eval vc)) (vt transistor) ))) (vt transistor) )))
 
           
        
@@ -100,40 +104,50 @@
 ;---------- *  |-------------| = |-------------|    
 ; YA | Z       | current-var |   | rhs-voltage |             
 ;inductor is shorcut in DC analysis
-(defmethod map-device ((d class-bipolar-transistor) (m class-matrix-system))
+(defmethod map-device ((device-instance class-bipolar-transistor) (m class-matrix-system))
      (print "mapping bipolar transistor")
-  (let ((vc       (make-var-node  'v (nodec d)))
-        (vb       (make-var-node  'v (nodeb d)))
-        (ve       (make-var-node  'v (nodee d)))
-        (icc        (make-var-name  'icc (name  d))))        
-        (iec        (make-var-name  'iec (name  d)))
-        
-        (ic        (make-var-name  'ic (name  d)))
-        (ib        (make-var-name  'ib (name  d)))
-        
-        (ie        (make-var-name  'ie (name  d)))
-        
-        
-        
+  (let ((vc         (make-var-node  'v (node-c device-instance)))
+        (vb         (make-var-node  'v (node-b device-instance)))
+        (ve         (make-var-node  'v (node-e device-instance)))
 
+        (icc        (make-var-name  'icc (name device-instance)))
+        (iec        (make-var-name  'iec (name device-instance)))
+        
+        (ic         (make-var-name  'ic (name  device-instance)))
+        (ib         (make-var-name  'ib (name  device-instance)))
+        
+        (ie         (make-var-name  'ie (name  device-instance))))
+        
+        
+        
+     (print "stage 1")
 
 
 ;E matrix
-        (set-e-value m vc ic #'+   1)
-        (set-e-value m vb ie #'+   1)
-        (set-e-value m vb ib #'+   1)
+        (set-g-value m vc ic #'+   1)
+        (set-g-value m vb ie #'+   1)
+        (set-g-value m vb ib #'+   1)
 
 
-        (set-e-value m icc icc #'+   1)
-        (set-e-value m icc iec #'-   alpha-reverse)
+        (set-g-value m icc icc #'+   1)
+        (set-g-value m icc iec #'-   (alpha-reverse device-instance))
 
-       (set-e-value m iec icc #'-    alpha-forward)
+       (set-g-value m iec icc #'-    (alpha-forward device-instance))
 
-        (set-e-value m iec iec #'+   1)
+        (set-g-value m iec iec #'+   1)
 
-        (set-e-value m ib ic #'-   1)
-        (set-e-value m ib ie #'-   1)
+        (set-g-value m ib ic #'-   1)
+        (set-g-value m ib ie #'-   1)
 
+
+(set-rhsl-start-value m iec #'+ 0.05d0)
+(set-rhsl-start-value m ic #'+ 0.05d0)
+(set-rhsl-start-value m ib #'+ 0.05d0)
+(set-rhsl-start-value m ie #'+ 0.05d0)
+(set-rhsl-start-value m icc #'+ 0.05d0)
+
+
+     (print "stage 2")
 
 ;G matrix
 
@@ -142,19 +156,28 @@
 ;    (set-z-value m q n- #'-   1)
 ;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
 
+
 ;-------------------
-        (set-equations-value m icc (bipolar-transistor-icc d vb ve)) 
+        (set-equations-value m icc (bipolar-transistor-icc device-instance vb ve)) 
 
-        (set-d-value m icc  vb  (bipolar-transistor-icc-dvb d vb ve))        
-        (set-d-value m icc  ve  (bipolar-transistor-icc-dve d vb ve))
+        (set-d-value m icc  vb  (bipolar-transistor-icc-dvb device-instance vb ve))        
+        (set-d-value m icc  ve  (bipolar-transistor-icc-dve device-instance vb ve))
 ;-------------------
 
-        (set-equations-value m iec (bipolar-transistor-iec d vb vc)) 
 
-        (set-d-value m iec  vb  (bipolar-transistor-iec-dvb d vb vc))        
-        (set-d-value m iec  vc  (bipolar-transistor-iec-dvc d vb vc))
+     (print "stage 3")
+
+        (set-equations-value m iec (bipolar-transistor-iec device-instance vb vc)) 
+
+
+     (print "stage 4")
+
+        (set-d-value m iec  vb  (bipolar-transistor-iec-dvb device-instance vb vc))        
+        (set-d-value m iec  vc  (bipolar-transistor-iec-dvc device-instance vb vc))
         
 
+
+     (print "stage 5")
         
                         
                    ))

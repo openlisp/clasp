@@ -101,7 +101,7 @@
   
 
 (defmethod map-device ((d class-diode) (m class-matrix-system))
-     (print "mapping diode")
+  (print "mapping diode")
   (let ((v+       (make-var-node 'v (node+ d)))
         (v-       (make-var-node 'v (node- d)))
         (i        (make-var-name 'i (name  d))))

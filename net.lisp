@@ -41,6 +41,11 @@
 (defun net-size ()
   (hash-table-size *net*))
 
+
+(defgeneric net-insert-device (device name)
+  (:documentation "Draw the given shape on the screen."))
+
+
 ;Funkce pro vložení nebo přepsání prvku z databáze
 (defmethod net-insert-device ((device class-device) name)
   (setf (gethash name *net*) device))

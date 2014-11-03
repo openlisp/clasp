@@ -13,9 +13,9 @@
     (vtrans  (make-instance 'class-variables)))
     (map-all-devices m)
     
-;    (print "1*")    
-;    (print (get-sub-stack-vector m 0 (size m)))
-;    (print "2*")    
+    (print "1*")
+    (print (get-sub-stack-vector m 0 (size m)))
+    (print "2*")
 
     ;tvorba tridy s vysledky
     (set-new-symbol-var-matrix vtrans start step stop (get-sub-stack-vector m 0 (size m))) 

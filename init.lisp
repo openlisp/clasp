@@ -25,14 +25,29 @@
 ;;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-(require :asdf)
+(require "asdf")
+
+
+
+
+(print "Quick Lisp Initialization")
+
+(load "~/quicklisp/setup.lisp")
+(ql:quickload "gsll")
+(ql:quickload "antik")
+
 
 (print "CLASP Initialization")
+;(asdf:operate 'asdf:load-op :clasp)
+(push "./" asdf:*central-registry*)
+(asdf:load-system :clasp)
 
-(asdf:operate 'asdf:load-op :clasp)
-(ql:quickload "gsll")
-(ql:quickload "grid")
-(ql:quickload "foreign-array")
+; Initial testing circuit. 
 ;(clasp:test-trans-ni-simple-capacitor)
 ;(clasp:simple-test-two-way-rectifier)
-(clasp:simple-test-two-way-rectifier-two)
+;(clasp:simple-test-two-way-rectifier-two)
+;(clasp:test-trans-bipolar-transistor)
+
+;(clasp:test-solvers)
+
+;(quit)

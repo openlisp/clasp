@@ -58,7 +58,6 @@
         
 
 
-
 ;E matrix
         (set-e-value m v+ q #'+   1)
         (set-e-value m v- q #'-   1)
@@ -66,9 +65,9 @@
         (set-g-value m  q q #'-   1)
 ;Z matrix        
    ;     (set-z-value m q n+ #'+   1)
-    ;    (set-z-value m q n- #'-   1)
-        
-              ;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
+   ;    (set-z-value m q n- #'-   1)
+
+   ;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
 
 
         (set-equations-value m q (capacitor-nonlinear-charge d v+ v-)) 

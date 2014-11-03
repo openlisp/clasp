@@ -1,6 +1,6 @@
  (in-package #:clasp)
 
-(defun dc (start step stop &optional solver)
+(defun dc ( &optional solver)
   (make-instance 'class-matrix-system)
   (make-instance 'class-variables)          
   (let ((m       (make-instance 'class-matrix-system))
@@ -10,8 +10,7 @@
         (stop  1 ))
     (map-all-devices m)
     
-    (print "chyba")
-    (print (get-sub-stack-vector m 0 (size m)))
+    ;(print (get-sub-stack-vector m 0 (size m)))
     (set-new-symbol-var-matrix v start step stop (get-sub-stack-vector m 0 (size m))) ; will generate only one time point
     (loop for i from 0 below (first (size v)) do
       (setf *time-pos* i)

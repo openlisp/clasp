@@ -77,10 +77,16 @@
   (net-clear)
 
 ;  (EF "E1" 1 0 #'(lambda () *TIME*))
-  (E "E1" 1 0 5)   
-  (R "R1" 1 2 500)  
-  (DS2 "D1"  2 0)
-  (trans 0.0 0.1 5.0 'newton-raphson) 
+  (E "E1" 1 0 0)
+  (R "R1" 1 4 500)
+  (R "R2" 1 5 500)
+  (R "R3" 6 0 500)
+  (R "R4" 5 0 500)
+
+  (BJT "BJT1" 4 5 6)
+ ; (trans 0.0 0.1 0.2 'newton-raphson)
+  (dc 'newton-raphson)
+
 )
 
 
@@ -502,14 +508,14 @@
   (DS2 "D2"  1 4)
   (DS2 "D3"  0 2)
   (DS2 "D4"  2 4)
-  (R "RS2" 4 0 1000)  
-   
+  (R "RS2" 4 0 1000)
+
   (print "generating deviced finished")
   (print-string-output "test-simple-diode - Newton Raphson")
-  (print-string-iter "test-simple-diode - Newton Raphson")  
+  (print-string-iter "test-simple-diode - Newton Raphson")
   (dc-sweep 0.0 0.1 5.0 'newton-raphson)
 
-  t) 
+  t)
 
 
 

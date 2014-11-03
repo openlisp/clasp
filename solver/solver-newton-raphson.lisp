@@ -51,9 +51,11 @@
            :combination-function (lambda (a b) (+ a b))))
     (residual 0)       
     (new-value-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.0d0)) 
-    (old-rhs-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.5d0)))
+    (old-rhs-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.2d0)))
 
- 
+
+           (print old-rhs-vector)
+            (print (get-sub-stack-vector m 0 (size m)))
 
 (LET ((RNG (gsl:MAKE-RANDOM-NUMBER-GENERATOR gsl:+mt19937+ 1)))
     (setf new-value-vector 
@@ -146,14 +148,17 @@
                        (list rhs-vector nil))            
                   :combination-function (lambda (a b) (+ a b))))
         
-   ;      (print "nechapu")
+       ;  (print "stage ++")
+          (print-state iter new-value-vector i residual)
+
       (set-symbol-var-value var-arr *time-pos* 1 (grid:gref new-value-vector (- 1 1)))
-  ;       (print "blbost")
+       ;  (print "stage +++")
        (iter:iter (iter:for k from 1 below (size m)) 
          (set-symbol-var-value var-arr *time-pos* k (grid:gref new-value-vector (- k 1)))
          (set (grid:gref (stack m) k)  (grid:gref new-value-vector (- k 1)))
          
-   ;        (print "co to je")        
+        ;   (print "stage ++++")
+
          ))
          
      finally           
