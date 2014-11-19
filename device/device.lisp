@@ -24,40 +24,14 @@
 ;;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-;set-g-value
+(in-package #:clasp)
 
-(require "asdf")
+; Basic class device, all devicese are inherences of this class
+(defclass class-device () ())
 
-(format t "CLASP Initialization. ~%")
-(load "~/quicklisp/setup.lisp")
-(ql:quickload "gsll")
-(ql:quickload "antik")
 
-; added due staple requirements
-(require :sb-introspect)
-(ql:quickload :staple)
+(defgeneric map-device (device matrix-system)
+  (:documentation "Map devices for analysis."))
 
 
 
-;not shure whether this is needed
-;(push "." asdf:*central-registry*)
-(push (truename "./") asdf:*central-registry*)
-
-(asdf:load-system :clasp)
-
-(format t "CLASP Inicialization finished.~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
-
-(staple:generate :clasp)
-
-; Initial testing circuit. 
-;(clasp:test-trans-ni-simple-capacitor)
-;(clasp:simple-test-two-way-rectifier)
-;(clasp:simple-test-two-way-rectifier-two)
-;(clasp:test-trans-bipolar-transistor)
-
-
-;(clasp:test-solvers)
-
-
-;Exit
-(quit)

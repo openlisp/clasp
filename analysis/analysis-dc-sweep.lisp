@@ -30,9 +30,9 @@
 
 ;dc sweeep
 (defun dc-sweep (start step stop &optional solver data)
-  (make-instance 'class-matrix-system)
+  (make-instance 'matrice-system)
   (make-instance 'class-variables)          
-  (let ((m       (make-instance 'class-matrix-system))
+  (let ((m       (make-instance 'matrice-system))
         (v       (make-instance 'class-variables)))
     (map-all-devices m)    
 

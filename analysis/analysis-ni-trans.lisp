@@ -27,9 +27,9 @@
 (in-package #:clasp)
 
 (defun trans-ni (start step stop &optional solver)
-  (make-instance 'class-matrix-system)
+  (make-instance 'matrice-system)
   (make-instance 'class-variables)          
-  (let ((m       (make-instance 'class-matrix-system))
+  (let ((m       (make-instance 'matrice-system))
 ;        (v       (make-instance 'class-variables))
          (h 1e-8)
          (reltol 1e-3)

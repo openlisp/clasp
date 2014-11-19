@@ -1,0 +1,14 @@
+(in-package :antik)
+
+
+(lisp-unit:define-test numbers
+    (lisp-unit::assert-numerical-equal
+     2.0d0
+     (+ 1.0d0 1.0d0))
+
+
+(lisp-unit:define-test numbers
+    (lisp-unit::assert-numerical-equal
+     2.0d0
+     (+ 1.0d0 1.0d0))
+

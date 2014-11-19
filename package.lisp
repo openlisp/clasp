@@ -28,7 +28,7 @@
 
 ;;; Package defines set of public CLASP functions
 
-(cl:defpackage :clasp
+(cl:defpackage #:clasp
   (:use #:cl)
 ;  (:import-from #:zpb-ttf
 ;                #:open-font-loader
@@ -62,15 +62,19 @@
     #:test-7-segment
     #:test-two-way-rectifier
     #:test-zener-diode
-    #:test-solvers
-    #:complex-matrix-test     
-   ;;net
+    #:test-matrix-solvers
+    #:test-solvers-test     
+    #:test-solvers 
+
+
+    #:complex-matrix
+
+
     #:net-clear
     #:net-remove-device
     #:net-insert-device
     #:net-size
-;    #:test-hello    
-       
-;    #:print-whole-sparse-table
+
+
     ))
    

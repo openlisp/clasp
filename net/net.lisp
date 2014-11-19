@@ -24,40 +24,44 @@
 ;;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-;set-g-value
-
-(require "asdf")
-
-(format t "CLASP Initialization. ~%")
-(load "~/quicklisp/setup.lisp")
-(ql:quickload "gsll")
-(ql:quickload "antik")
-
-; added due staple requirements
-(require :sb-introspect)
-(ql:quickload :staple)
+(in-package #:clasp)
 
 
-
-;not shure whether this is needed
-;(push "." asdf:*central-registry*)
-(push (truename "./") asdf:*central-registry*)
-
-(asdf:load-system :clasp)
-
-(format t "CLASP Inicialization finished.~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
-
-(staple:generate :clasp)
-
-; Initial testing circuit. 
-;(clasp:test-trans-ni-simple-capacitor)
-;(clasp:simple-test-two-way-rectifier)
-;(clasp:simple-test-two-way-rectifier-two)
-;(clasp:test-trans-bipolar-transistor)
+; This will make *net* array which will hold all devices included in; circuit
+(defvar *net* (make-hash-table :test #'equal))
 
 
-;(clasp:test-solvers)
+;; Funkce pro odstranění všech prvků z databáze
+(defun net-clear ()
+  (setf
+    *net* (make-hash-table :test #'equal)))
+
+;; return size of the *net* table
+(defun net-size ()
+  (hash-table-size *net*))
 
 
-;Exit
-(quit)
+
+(defgeneric net-insert-device (device name)
+  (:documentation "Insert new device into network."))
+(defmethod net-insert-device ((device class-device) name)
+  (setf (gethash name *net*) device))
+
+
+(defgeneric net-remove-device (name)
+  (:documentation "Function for removing device from network."))
+(defmethod net-remove-device (name)
+  (remhash name *net*))
+
+
+
+(defgeneric map-all-devices (m)
+  (:documentation "Map all device. Go through definition list and map device one by one"))
+(defmethod map-all-devices ((m matrice-system))
+  (print "Device maping started")
+  (maphash #'(lambda (name device)
+      (format nil "Mapping device ~a ~a ~%" name device)
+      (map-device device m))
+    *net*)
+  (print "Device maping finished"))
+

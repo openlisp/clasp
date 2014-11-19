@@ -1,4 +1,31 @@
- (in-package #:clasp)
+;;;; Copyright (c) 2013 David Cerny, All Rights Reserved
+;;;;
+;;;; Redistribution and use in source and binary forms, with or without
+;;;; modification, are permitted provided that the following conditions
+;;;; are met:
+;;;;
+;;;;   * Redistributions of source code must retain the above copyright
+;;;;     notice, this list of conditions and the following disclaimer.
+;;;;
+;;;;   * Redistributions in binary form must reproduce the above
+;;;;     copyright notice, this list of conditions and the following
+;;;;     disclaimer in the documentation and/or other materials
+;;;;     provided with the distribution.
+;;;;
+;;;; THIS SOFTWARE IS PROVIDED BY THE AUTHOR 'AS IS' AND ANY EXPRESSED
+;;;; OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+;;;; WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+;;;; ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+;;;; DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+;;;; DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+;;;; GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+;;;; INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+;;;; WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+;;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+;;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ 
+(in-package #:clasp)
 
 
 ;;;
@@ -11,13 +38,13 @@
 
 (defun dc ()
 ;     (print "linear dc started")  
-     (make-instance 'class-matrix-system)
+     (make-instance 'matrice-system)
      (print "matrix")
      (make-instance 'class-variables)
      (print "variables")
           
 
-  (let ((m       (make-instance 'class-matrix-system))
+  (let ((m       (make-instance 'matrice-system))
         (v       (make-instance 'class-variables)))
 
     (map-all-devices m)
@@ -47,7 +74,7 @@
 
 
 (defun stepped-dc (start step end)
-  (let ((m       (make-instance 'class-matrix-system))
+  (let ((m       (make-instance 'matrice-system))
         (v       (make-instance 'class-variables)))
     (map-all-devices m)
        
@@ -88,7 +115,7 @@
 ;
 ; linearni DC LUF
 ;
-(defmethod luf-dc-linear ((m class-matrix-system) (var-arr class-variables) i)
+(defmethod luf-dc-linear ((m matrice-system) (var-arr class-variables) i)
         (print "luf linear")    
   
   
@@ -183,7 +210,7 @@
 
 
 
-(defmethod luf-dc-nonlinear ((m class-matrix-system) (var-arr class-variables) i  epsilon max-iter est-type)
+(defmethod luf-dc-nonlinear ((m matrice-system) (var-arr class-variables) i  epsilon max-iter est-type)
   (let ((linear-matrices   ;nepocitame nelinearni stav, nelinearni rovnice jsou ommitovany
           (grid:map-n-grids 
                :sources 
@@ -401,7 +428,7 @@
 
 
 ;reseni ridke matice
-(defmethod luf ((m class-matrix-system) (var-arr class-variables))
+(defmethod luf ((m matrice-system) (var-arr class-variables))
   (let ((i  (1- (size m))))
      (print "luf")
     (if (linear m)

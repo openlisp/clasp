@@ -14,12 +14,14 @@ loading agter install
 # Change Log
 
 
-3.11. 2014
+## 19.11. Added documentation support
 
+
+
+## 3.11. 2014
 
 
 sudo apt-get install libgsl0ldbl
-
 
 
 Installation of quick lisp to new computer
@@ -52,12 +54,6 @@ Operations on data structured as a grid, i.e., generalized arrays. After cloning
 
 
 
-## 22.4. 2012  
-
-
-### New loading sequence
-
-All simualtor is loaded by ./clasp.sh (without rlwrap) or clasp-wrap (with rlwrap).
 
 
 
@@ -73,6 +69,16 @@ For initial simulator load use:
     (ql:quickload "gsll")
     (ql:quickload "grid")
     (ql:quickload "foreign-array")
+
+## 22.4. 2012  
+
+
+### New loading sequence
+
+All simualtor is loaded by ./clasp.sh (without rlwrap) or clasp-wrap (with rlwrap).
+
+
+
 
 ### Commands
 

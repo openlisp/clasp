@@ -1,17 +1,137 @@
 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
-*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V4         CLASP::V5         CLASP::V6         CLASP::ICBJT1     CLASP::IEBJT1     CLASP::IBBJT1     CLASP::ICCBJT1    CLASP::IECBJT1    
-            0.0;             0.0; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; #<DOUBLE-FLOAT quiet NaN>; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0;             0.0;             5.0;             5.0;             0.0;             0.0; 
+Newton Raphson
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0;             0.0;             5.0;             5.0;             0.0;             0.0; 
+Newton Raphson
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.4321931844; -2544.899118383; -6.781247099599;             0.2; 2.1781314734754; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.4321931844; -2544.899118383; -6.781247099599;             0.2; 2.1781314734754; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0;             0.0;             5.0;             5.0;             0.0;             0.0; 
+Newton Raphson
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.4321931844; -2544.899118383; -6.781247099599;             0.2; 2.1781314734754; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.6289317549;  -2545.10201051; -10.35297387691;             0.6; 6.5343944204263; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.6289317549;  -2545.10201051; -10.35297387691;             0.6; 6.5343944204263; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0;             0.0;             5.0;             5.0;             0.0;             0.0; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.6289317549;  -2545.10201051; -10.35297387691;             0.6; 6.5343944204263; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.6289317549;  -2545.10201051; -10.35297387691;             0.6; 6.5343944204263; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.6289317549;  -2545.10201051; -10.35297387691;             0.6; 6.5343944204263; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.6289317549;  -2545.10201051; -10.35297387691;             0.6; 6.5343944204263; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 2552.6289317549;  -2545.10201051; -10.35297387691;             0.6; 6.5343944204263; 
+Newton Raphson
+*TIME*            CLASP::V0         CLASP::IE1        CLASP::V1         CLASP::V2         CLASP::ID1        CLASP::V3         
+            0.0;             0.0; 1953955830378232000000000000000000000000000000000.; -2157143326402369000000000000000000000000000000000.; -119647410588807270000000000000000000000000000000000.; 17194755099054667000000000000000000000000000000000.; 119643508436178400000000000000000000000000000000000.; 
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson
+Newton Raphson

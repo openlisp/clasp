@@ -27,261 +27,65 @@
 
 ;;;; clasp.asd
 ;;;;
-;;;; For initial simulator load use:
-;;;;   (asdf:operate 'asdf:load-op :clasp)
-;;;;   (ql:quickload "gsll")
-;;;;   (ql:quickload "grid")
-;;;;   (ql:quickload "foreign-array")
-;;;;
-;;;; Commands
-;;;; To get updated all dist
-;;;;   (ql:update-all-dists)
-;;;; To update ql client
-;;;;   (ql:update-client)
-;;;; Matrix definition
-;;;; (defparameter m1 #m(1 2 3 ^ 0 6 8))
+
 
 (in-package :asdf)
 
 #-(or openmcl sbcl cmu scl clisp lispworks ecl allegro cormanlisp abcl)
-(error "Sorry, this Lisp is not yet supported.  Patches welcome!")
+(error "Sorry, this Lisp is not yet supported. Patches welcome!")
 
-(defsystem :clasp
+(asdf:defsystem #:clasp
   :author "David Cerny <cernyd1@fel.cvut.cz>"
   :maintainer "David Cerny <cernyd1@fel.cvut.cz>"
-  :version "0.0.3"
+  :version "0.1.1"
   :licence "BSD"
   :description "Common LISP as Simulator Program for Electrical Circuits"
   :long-description "CLASP is an unusual and efficient usage of functional programming language Common LISP as simulation program (CLASP) for electronic circuits. The principle of automatic self-modifying program has enabled complete freedom in definition of methods for optimized solution of any problem and speeding up the entire process of simulation. "
+  :depends-on (#:gsll #:iterate)
+  
+  :components
+  
+  ((:file "package")
+    
+    (:module systems
+      :serial t
+      :depends-on ("package")
+      :components
+      ((:file "equation-array")
+        (:file "equation-vector")
+        (:file "number-array")
+        (:file "number-vector")))
+    
+    (:module matrice
+      :serial t
+      :depends-on (systems)
+      :components
+      ((:file "matrice-system")))
+    
+    (:module symbols
+      :serial t
+      :depends-on (matrice)
+      :components
+      ((:file "symbol-par")
+        (:file "symbol-var")))
+    
+    
+    (:module device
+      :serial t
+      :depends-on (symbols)
+      :components
+      ((:file "device")))
+    
+    
+    (:module net
+      :serial t
+      :depends-on (device)
+      :components
+      ((:file "net")))
+    
+   
 
-
-  :depends-on (gsll
-               :iterate)
- ; :depends-on (:iterate)    
-
-  :components ((:file "package")
-               (:file "net"
-                      :depends-on ("package"))    
-                                                 
-               (:file "matrix-system"
-                      :depends-on ("package"
-                                   "net"))
-
-               (:file "symbol-par"
-                      :depends-on ("package"                      
-                                   "matrix-system"))
-
-               (:file "symbol-var"
-                      :depends-on ("package"                      
-                                   "matrix-system"))
-                                   
-                                   
-               (:file "device/device-capacitor"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))          
-                                   
-               (:file "device/device-resistor"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))
-
-               (:file "device/device-thermistor"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))
-                                             
-               (:file "device/device-source-voltage"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system")) 
-
-               (:file "device/device-source-volfun"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))                                                                      
-
-               (:file "device/device-source-current"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))                                                                      
-
-               (:file "device/device-inductor"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))          
-
-               (:file "device/device-diode"
-                      :depends-on ("package"
-                                   "net"
-                                   "symbol-par"
-                                   "matrix-system"))          
-
-
-               (:file "device/device-resistor-nonlinear"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))          
-
-               (:file "device/device-capacitor-nonlinear"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))          
-
-
-               (:file "device/device-diode-simple"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))          
-
-               (:file "device/device-diode-simple2"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))          
-
-               (:file "device/device-diode-simple-zener"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))     
-                                   
-               (:file "device/device-bipolar-transistor"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))      
-
-               (:file "device/device-resistor-fun"
-                      :depends-on ("package"
-                                   "net"
-                                   "matrix-system"))          
-
-               (:file "device/devices"
-                      :depends-on ("package"
-                                   "net"
-                                   "device/device-source-volfun"
-                                   "device/device-source-current"
-                                   "device/device-capacitor"
-                                   "device/device-resistor"
-                                   "device/device-thermistor"
-                                   "device/device-inductor"
-                                   "device/device-source-voltage"
-                                   "device/device-diode"
-                                   "device/device-resistor-nonlinear"
-                                   "device/device-resistor-fun"
-                                   "device/device-diode-simple"
-                                   "device/device-diode-simple2"
-                                   "device/device-diode-simple-zener"
-                                   "device/device-capacitor-nonlinear"
-                                   "device/device-resistor-nonlinear"
-                                   "device/device-bipolar-transistor"))
-
-
-               (:file "solver/solver-damped-newton-raphson"
-                      :depends-on ("package"
-                                   "symbol-var"
-                                   "symbol-par"
-
-;                                   "net"
-                                   "matrix-system"))          
-
-               (:file "solver/solver-bdf"
-                      :depends-on ("package"
-                                   "symbol-var"
-                                   "symbol-par"
-
-;                                   "net"
-                                   "matrix-system"))          
-
-
-
-
-               (:file "solver/solver-particle-swarm"
-                      :depends-on ("package"
-                                   "symbol-var"
-                                   "symbol-par"
-
-;                                   "net"
-                                   "matrix-system"
-                                   ))          
-
-               (:file "solver/solver-evolutionary-newton-raphson"
-                      :depends-on ("package"
-                                   "symbol-var"
-                                   "symbol-par"
-
-;                                   "net"
-                                   "matrix-system"
-                                   ))   
-
-               (:file "solver/solver-newton-raphson"
-                      :depends-on ("package"
-                                   "symbol-var"
-                                   "symbol-par"
-
-;                                   "net"
-                                   "matrix-system"
-                                   ))  
-
-               (:file "solver/solver-luf"
-                      :depends-on ("package"
-                                   "symbol-var"
-                                   "symbol-par"
-
-;                                   "net"
-                                   "matrix-system"))  
-
-
-               (:file "solver/solvers"
-                      :depends-on ("package"
-                                   "solver/solver-damped-newton-raphson"
-                                   "solver/solver-particle-swarm"
-                                   "solver/solver-evolutionary-newton-raphson"
-                                   "solver/solver-newton-raphson"
-                                   "solver/solver-luf"))
-                          
-
-               (:file "test/test"
-                      :depends-on ("package"
-                                   "symbol-var"
-                                   "symbol-par"
-                                   "analysis/analysis-dc"
-                                   "analysis/analysis-dc-sweep"))
-                                   
-
-
-                      
-               (:file "analysis/analysis-dc"
-                      :depends-on ("package"
-;                                   "matrix-system"
-                                   "device/devices"
-                                   "solver/solvers"))
-
-               (:file "analysis/analysis-dc-sweep"
-                      :depends-on ("package"
-;;                                   "symbol-var"
-;;                                   "symbol-par"
-;;                                   "matrix-system"
-                                   "device/devices"
-                                   "solver/solvers"))
-                                   
-
-
-               (:file "analysis/analysis-trans"
-                      :depends-on ("package"
-;                                   "matrix-system"
-                                   "device/devices"
-                                   "solver/solvers"))
-
-
-               ;; Experimental Numerical Integration analysis
-               (:file "analysis/analysis-ni-trans"
-                      :depends-on ("package"
-                                   "device/devices"
-                                   "solver/solvers"))
-
-                                                                      
-))         
-                       
-
+))
 
 
 
