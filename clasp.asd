@@ -26,7 +26,7 @@
 
 
 ;;;; clasp.asd
-;;;;
+;;;; map-device make-var-node stack get-sub- GET-SUB-G-ARRAY
 
 
 (in-package :asdf)
@@ -47,20 +47,18 @@
   
   ((:file "package")
     
-    (:module systems
+    (:module matrice
       :serial t
       :depends-on ("package")
       :components
-      ((:file "equation-array")
-        (:file "equation-vector")
-        (:file "number-array")
-        (:file "number-vector")))
-    
-    (:module matrice
-      :serial t
-      :depends-on (systems)
-      :components
-      ((:file "matrice-system")))
+      ((:file "matrice-system")
+        (:module systems
+          :serial t
+          :components
+          ((:file "equation-array")
+            (:file "equation-vector")
+            (:file "number-array")
+            (:file "number-vector")))))
     
     (:module symbols
       :serial t
@@ -83,9 +81,109 @@
       :components
       ((:file "net")))
     
-   
-
-))
+    
+    (:module models
+      :serial t
+      :depends-on (device)
+      
+      :components
+      ((:module capacitors
+          :serial t
+          :components
+          ((:file "device-capacitor")
+            (:file "device-capacitor-nonlinear")))
+        
+        
+        
+        (:module resistors
+          :serial t
+          :components
+          ((:file "device-resistor")
+            (:file "device-experimental-resistor")
+            (:file "device-resistor-nonlinear")
+            (:file "device-resistor-fun")))
+        
+        
+        
+        (:module sources
+          :serial t
+          :components
+          ((:file "device-source-voltage")
+            (:file "device-source-volfun")
+            (:file "device-source-current")))
+        
+        
+        (:module diodes
+          :serial t
+          :components
+          ((:file "device-diode")
+            (:file "device-diode-simple")
+            (:file "device-diode-simple2")
+            (:file "device-diode-simple3")
+            (:file "device-diode-simple-zener")))
+        
+        
+        (:module transistors
+          :serial t
+          :components
+          
+          ((:file "device-bipolar-transistor")))
+        
+        
+        (:module inductors
+          :serial t
+          :components
+          
+          ((:file "device-inductor")))
+        
+        
+        
+        (:module misc
+          :serial t
+          :components
+          
+          ((:file "device-thermistor")))))
+    
+    
+    
+    
+    (:module analysis
+      :serial t
+      :depends-on ("symbols" "models")
+      :components
+      
+      ((:file "analysis-dc")
+        (:file "analysis-dc-sweep")
+        (:file "analysis-trans")
+        (:file "analysis-ni-trans")
+        
+        
+        (:module solvers
+          :serial t
+          :components
+          
+          ((:file "dc-solve")
+            
+            (:module methods			
+              :components
+              
+              ((:file "damped-newton-raphson")
+                (:file "particle-swarm")
+                (:file "evolutionary-newton-raphson")
+                (:file "newton-raphson")
+                (:file "bdf")
+                (:file "luf")))))))
+    
+    
+    
+    
+    (:module tests
+      :serial t
+      :depends-on ("symbols" "analysis" "models")
+      :components
+      ((:file "test")))
+    
+    ))
 
 
 

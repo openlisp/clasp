@@ -46,7 +46,7 @@
 ;    (print "2*")    
 
     ;; Setting object with all results from simulation and simulation node times.
-    (set-new-symbol-var-matrix vtrans start step stop (get-sub-stack-vector m 0 (size m))) 
+    (set-new-symbol-var-matrix vtrans start step stop (get-variable-label-vector m )) 
 ;    (print "3*")    
     ;postupne se menici se pole 
 ;    (set-new-symbol-var-matrix vtrans start (/ step 50) (+ start (/ step 5)) (get-sub-stack-vector m 0 (size m)))
@@ -68,19 +68,17 @@
            (grid:map-n-grids 
                 :sources 
                   (list 
-                    (list 
-                      (get-sub-g-array m 1 1 i i) nil)                 
+                    (list (get-array (get-g-number-array m)) nil)             
                     (list     
                       (grid:map-grid 
-                           :source (get-sub-d-array m 1 1 i i)
+                           :source (get-array (get-differetial-equation-array m))
                            :element-function (lambda (x) (coerce (apply #'+ (mapcar #'funcall x))  'double-float)))  nil)                           
                            ) 
                 :combination-function (lambda (a b) (+ a b )))))
                       
       (print "jacobian")
       (print jacobian-matrix)) 
-      (print "get-sub-d-array")
-      (print  (get-sub-d-array m 1 1 i i))
+
 
 
 ;    (print "size m ")

@@ -16,6 +16,7 @@
           :accessor rfun)))     
 
 
+
 ;rezistor neni nelinearne. Jen se musi hodnota resistance vypocitat evaluaci funkce
 (defmethod resistor-fun-current ((resistor class-resistor-fun) v+ v-)
   #'(lambda () 
@@ -41,13 +42,26 @@
         (i        (make-var-name 'i (name  d))))
 ;        (rfun    (rfun d))) ;; not used definition
 ;G matrix
-        (set-g-value m v+ i #'+  1)
-        (set-g-value m v- i #'+ -1)        
-        (set-g-value m i  i #'+ -1)        
 
-        (set-equations-value m i (resistor-fun-current     d v+ v-)) 
-        (set-d-value m i  v+     (resistor-fun-current-dv+ d v+ v-))        
-        (set-d-value m i  v-     (resistor-fun-current-dv- d v+ v-))))
+    (setf (g-number-array v+ i  m)  1)              
+    (setf (g-number-array v- i  m) -1) 
+    (setf (g-number-array i  i  m) -1) 
+
+
+(setf (nonlinear-equation-vector i m)  (resistor-fun-current d v+ v-))
+(setf (differetial-equation-array i v+ m) (resistor-fun-current-dv+ d v+ v-))   
+(setf (differetial-equation-array i v- m)   (resistor-fun-current-dv- d v+ v-))
+
+))
+
+;DEPRECATED
+;        (set-g-value m v+ i #'+  1)
+;        (set-g-value m v- i #'+ -1)        
+;        (set-g-value m i  i #'+ -1)        
+
+ ;       (set-equations-value m i ) 
+ ;       (set-d-value m i  v+     (resistor-fun-current-dv+ d v+ v-))        
+ ;       (set-d-value m i  v-     (resistor-fun-current-dv- d v+ v-))))
 
 
           

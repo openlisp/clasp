@@ -42,19 +42,20 @@
         
 
 
+                       
+    (setf (g-number-array q q  m)  -1)
 
-;G matrix
-        (set-g-value m  q q #'-   1)
-;E matrix
-        (set-e-value m n+ q #'+   1)
-        (set-e-value m n- q #'-   1)
-;Z matrix        
-        (set-z-value m q n+ #'+   c)
-        (set-z-value m q n- #'-   c)))
 
-        
-                        
+    (setf (e-number-array n+ q  m) 1)
+    (setf (e-number-array n- q  m) -1)
+
+
+
+    (setf (z-number-array q n+  m) c)
+    (setf (z-number-array q n-  m) (- c))
                 
+
+))
                     
 
 ; Function for easy capacitor definition

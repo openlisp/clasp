@@ -27,11 +27,12 @@
 
 (in-package #:clasp)
 
-(defclass equation-vector ()
+
+(defclass number-vector ()
   ((initial-size
       :initarg :initial-size
       :reader initial-size
-      :initform 0
+      :initform 1
       :documentation "")
     
     (adjustable
@@ -53,31 +54,47 @@
 
 (defgeneric size (vec)
   (:documentation "Returns vector size."))
-(defmethod size ((vec equation-vector))
+(defmethod size ((vec number-vector))
   (length (get-vector vec)))
 
 
+;(defgeneric add-vector-value (vec op value)
+;  (:documentation "Add new vector value."))
+;(defmethod add-vector-value ((vec number-vector) op value)
+;  (vector-push (funcall op 0.0d0 value) (get-vector vec) ))
 
-(defgeneric set-vector-equation (vec pos value)
-  (:documentation "set new vector equation."))
-(defmethod set-vector-equation ((vec equation-vector) pos value)
+
+
+(defgeneric set-vector-value (vec pos value)
+  (:documentation "Set Initial start vector."))
+(defmethod set-vector-value ((vec number-vector) pos  value)
   (let ((size (size vec))
-      (max-size pos))
-    (unless (< max-size size)
-      (adjust-array (get-vector vec) max-size ))
-    (push
-      value
-      (aref (get-vector vec) pos))))
+      (initial-element (initial-element vec))
+      (max-index pos))
+    (unless (< max-index size)
+      (adjust-array (get-vector vec) (1+ max-index) :initial-element initial-element))
+    (let ((var (aref (get-vector vec) pos)))
+      (setf
+        (aref (get-vector vec) pos)
+        (+ var value)))))
+
+; (let ((data-vector-value (elt (get-vector vec) pos)))
+;   (setf
+;     data-vector-value
+;     (funcall op data-vector-value value))))
 
 
 
 
-;(defgeneric add-vector-equation (vec value)
-;  (:documentation "Add new vector equation."))
-;(defmethod add-vector-equation ((vec equation-vector) value)
-;  (vector-push value (get-vector vec)  ))
+;2
+(defmethod adjust-size ((vec number-vector) size)
+ (print "Adjust number-vector")
+  (adjust-array  (get-vector vec) size  :initial-element (initial-element vec) ))
 
-(defmethod initialize-instance :after ((vec equation-vector) &key)
+
+
+
+(defmethod initialize-instance :after ((vec number-vector) &key)
   (let
     ((adjustable (is-adjustable vec))
       (initial-element (initial-element vec))

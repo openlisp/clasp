@@ -43,19 +43,107 @@
 
 
 
-;;; Overal Simulation Tests
+
+
+
+
+(defun experimental-mesh-worker (dim jump drop skip leave)
+  (apply #'append
+    (loop for r from (+ 1 jump) to (- dim drop)
+      collect (loop for x from (- (* r dim) (- dim 1 skip) ) to (- (* r dim) leave) collect x ))))
+
+
+(defun experimental-mesh-generator (size jump1 drop1 skip1 leave1 jump2 drop2 skip2 leave2 )
+  (loop for x in (experimental-mesh-worker size jump1 drop1 skip1 leave1)
+    for y in (experimental-mesh-worker size jump2 drop2 skip2 leave2)
+    collect (list x y) ))
+
+
+(defun experimental-mesh (size)
+  (apply #'append
+    (experimental-mesh-generator size 0 0 0 1 0 0 1 0)
+    (experimental-mesh-generator size 0 1 0 0 1 0 0 0)
+    (experimental-mesh-generator size 0 1 1 0 1 0 0 1)
+    (experimental-mesh-generator size 0 1 0 1 1 0 1 0)
+     nil
+))
+
+
+
+
+;(defun experimental-mesh (size)
+;  (append
+;  (experimental-mesh-generator
+;    (loop for x in (experimental-mesh-generator size 0 0 0 1)
+;      for y in (experimental-mesh-generator size 0 0 1 0)
+;      collect (list x y) )
+;    (loop for x in (experimental-mesh-generator size 0 1 0 0)
+;      for y in (experimental-mesh-generator size 1 0 0 0)
+;      collect (list x y) )
+;    (loop for x in (experimental-mesh-generator size 0 1 1 0)
+;      for y in (experimental-mesh-generator size 1 0 0 1)
+;      collect (list x y) )
+;    (loop for x in (experimental-mesh-generator size 0 1 0 1)
+;      for y in (experimental-mesh-generator size 1 0 1 0)
+;      collect (list x y) )))
+
+
+
+
+
 (defun test-solvers ()
   (print "Test solvers...")
   (format t "Test solvers...~%")
+  
+  (print "Net Clear")
+  (net-clear)
+  
+  (print "Circuit Definition")
+  (E "E1" 1 0 5)
+  
+  (setf i 1)
 
+;(print (experimental-mesh 2))
+  (loop for r in  (experimental-mesh 5)
+    
+    do
+(print i)
+;(print r)
+   ; (print (first r))
+   ; (print (second r))
+    (setf i (+ i 1))
+    (REX (format nil "R~s" i) (first r) (second r) 10 )
+
+
+)
+  
+  
+  
+  
+  (print "dc 'newton-raphson")
+  (time (dc 'newton-raphson))
+  
+  (print "end - test-solvers")
+  t
+  )
+
+
+
+
+
+;;; Overal Simulation Tests
+(defun test-solvers2 ()
+  (print "Test solvers...")
+  (format t "Test solvers...~%")
+  
   (print "Net Clear")
   (net-clear)
   
   (print "Circuit Definition")
   (E "E1" 1 0 5)
   (R "R1" 1 2 500)
-  (DS2 "D1"  2 3 )
-  (R "R2" 3 0 500)
+  ;(DS2 "D1"  2 3 )
+  (R "R2" 2 0 500)
   
   (print-string-output "Newton Raphson")
   (print-string-iter "Newton Raphson")

@@ -58,18 +58,36 @@
         (v-       (make-var-node 'v (node- d)))
         (i        (make-var-name 'i (name  d)))
         (vol    (voltage d)))
- (print "voltage g matrix")
 ;G matrix
 
-(set (g-number-array) 
-        (set-g-value m i  v+  #'+  1)
-        (set-g-value m i  v-  #'-  1)
-        (set-g-value m v+ i   #'+  1)
-        (set-g-value m v- i   #'-  1)
-;RHS        
-(print "voltage rhs vector")
+;        (set-g-value m i  v+  #'+  1)
+;        (set-g-value m i  v-  #'-  1)
+;        (set-g-value m v+ i   #'+  1)
+;        (set-g-value m v- i   #'-  1)
 
-        (set-rhs-number-value m i #'+ vol)))
+
+;        (set-rhs-number-value m i #'+ vol)
+(print "voltage 1")
+
+    (setf (g-number-array i v+  m)   1)
+(print "voltage 2")
+
+    (setf (g-number-array i v-  m)  -1)
+(print "voltage 3")
+
+    (setf (g-number-array v+ i  m)   1)
+(print "voltage 4")
+
+    (setf (g-number-array v- i  m)  -1)
+
+(print "voltage 5")
+
+    (setf (rhs-number-vector i m)  vol)
+
+(print "voltage 6")
+
+
+))
  
  
 ; Function for easy source definition

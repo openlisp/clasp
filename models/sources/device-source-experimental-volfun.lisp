@@ -93,7 +93,7 @@
         (v-       (make-var-node 'v (node- d)))
         (i        (make-var-name 'i (name  d)))
         (volfun   (volfun d)))
- (print "voltage g matrix")
+
 ;G matrix
 
     
@@ -104,11 +104,11 @@
      ;  (set-g-value m v- i   #'-  1)
 
 
-        (set-gd-value m i  v+  (voltage-source-polarity+ volfun v+ v-))        
-        (set-gd-value m i  v-  (voltage-source-polarity- volfun v+ v-))
+   ;     (set-gd-value m i  v+  (voltage-source-polarity+ volfun v+ v-))        
+   ;     (set-gd-value m i  v-  (voltage-source-polarity- volfun v+ v-))
 
-        (set-gd-value m  v+ i (voltage-source-polarity+ volfun v+ v-))        
-        (set-gd-value m  v- i (voltage-source-polarity- volfun v+ v-))
+  ;      (set-gd-value m  v+ i (voltage-source-polarity+ volfun v+ v-))        
+  ;      (set-gd-value m  v- i (voltage-source-polarity- volfun v+ v-))
 
 ;; here must be orientation misteko othervise I dont know
 ;; Documentation and code has differend deffinition
@@ -120,8 +120,19 @@
 
 ;RHS        
 ;(print "voltage rhs vector")
-        (set-rhs-equations-value m i volfun)))
+ ;       (set-rhs-equations-value m i volfun)))
+
+
+    (setf (g-equation-array i v+  m)   (voltage-source-polarity+ volfun v+ v-))
+    (setf (g-equation-array i v-  m)   (voltage-source-polarity+ volfun v+ v-))
+    (setf (g-equation-array v+ i  m)   (voltage-source-polarity+ volfun v+ v-))
+    (setf (g-equation-array v- i  m)   (voltage-source-polarity+ volfun v+ v-))
+
+
+    (setf (rhs-equation-vector i m)  volfun)
+
  
+))
 ;;;
 ;;; Esperimental functional coltage source 
 ;;; 

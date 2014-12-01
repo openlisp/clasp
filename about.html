@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8"/>
+    <title>CLASP</title>
+    <style type="text/css">
+      code a{text-decoration:none;}
+      h1{display:inline-block;font-size: 28pt;margin-bottom:0;}
+      code{font-family: Consolas, Inconsolata, monospace;}
+      h4{display: inline-block;margin:0;padding:0;}
+      #symbol-index ul{list-style: none;}
+      .package li{margin-bottom: 20px;}
+      .package pre{margin: 0 0 0 10px; white-space: pre-wrap;}
+      .package .nicknames{font-size: 12pt; font-weight: normal;}
+      table{margin: 20px;}
+      td{padding-bottom: 10px;}
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>clasp</h1>
+      <span>0.1.1</span>
+      <p>Common LISP as Simulator Program for Electrical Circuits</p>
+    </header>
+    <div id="content">
+      <article>
+        <c:documentate>
+          <span><h1>CLASP</h1>
+
+<p>CLASP is an unusual and efficient usage of functional programming language Common LISP as simulation program (CLASP) for electronic circuits. The principle of automatic self-modifying program has enabled complete freedom in definition of methods for optimized solution of any problem and speeding up the entire process of simulation. </p>
+
+<p>loading agter install
+    (load &quot;~/quicklisp/setup.lisp&quot;)</p>
+
+<h1>Change Log</h1>
+
+<h2>19.11. Added documentation support</h2>
+
+<h2>3.11. 2014</h2>
+
+<p>sudo apt-get install libgsl0ldbl</p>
+
+<p>Installation of quick lisp to new computer
+curl -O http://beta.quicklisp.org/quicklisp.lisp
+curl -O http://beta.quicklisp.org/quicklisp.lisp.asc
+gpg --verify quicklisp.lisp.asc
+sbcl --load quicklisp.lisp</p>
+
+<p>(quicklisp-quickstart:install)</p>
+
+<p>(ql:quickload &quot;gsll&quot;)
+(ql:quickload &quot;grid&quot;)
+(ql:quickload &quot;foreign-array&quot;)</p>
+
+<p>(ql:add-to-init-file)</p>
+
+<p>(ql:quickload &quot;antik&quot;)</p>
+
+<p>(load &quot;~/quicklisp/setup.lisp&quot;)</p>
+
+<p>OBSOLETE; GSD has been replaced by Antik</p>
+
+<p>Operations on data structured as a grid, i.e., generalized arrays. After cloning, see the manual in documentation/grid/index.html. </p>
+
+<h2>15.4. 2013</h2>
+
+<h3>Loading Simulator - deprecated</h3>
+
+<p>For initial simulator load use:</p>
+
+<pre><code>(asdf:operate 'asdf:load-op :clasp)
+(ql:quickload &quot;gsll&quot;)
+(ql:quickload &quot;grid&quot;)
+(ql:quickload &quot;foreign-array&quot;)
+</code></pre>
+
+<h2>22.4. 2012</h2>
+
+<h3>New loading sequence</h3>
+
+<p>All simualtor is loaded by ./clasp.sh (without rlwrap) or clasp-wrap (with rlwrap).</p>
+
+<h3>Commands</h3>
+
+<p>To get updated all dist</p>
+
+<pre><code>(ql:update-all-dists)
+
+</code></pre>
+
+<p>To update ql client</p>
+
+<pre><code>(ql:update-client)
+
+</code></pre>
+
+<p>Matrix definition</p>
+
+<pre><code>(<a href="http://l1sp.org/cl/defparameter">defparameter</a> m1 #m(1 2 3 ^ 0 6 8))
+</code></pre>
+</span>
+        </c:documentate>
+      </article>
+      <article>
+        <h2>Copyright</h2>
+        <span>clasp</span> is licensed under the <span><a href="https://tldrlegal.com/search?q=BSD">BSD</a></span> license and ©<span>2014</span> <span>David Cerny &lt;cernyd1@fel.cvut.cz&gt;</span>. 
+      </article>
+      <article id="symbol-index">
+        <h2>Package Index</h2>
+        <ul><li class="package">
+            <h3>
+              <a name="CLASP" href="#CLASP">CLASP</a>
+              <span class="nicknames"/>
+            </h3>
+            <ul><li>
+                <a name="CLASP:NET-CLEAR"/>
+                <article>
+                  <header>
+                    <span>FUNCTION</span>
+                    <code>
+                      <h4><a href="#CLASP:NET-CLEAR">NET-CLEAR</a></h4>
+                      <span/>
+                      <span/>
+                    </code>
+                  </header>
+                  <pre/>
+                </article>
+              </li><li>
+                <a name="CLASP:NET-SIZE"/>
+                <article>
+                  <header>
+                    <span>FUNCTION</span>
+                    <code>
+                      <h4><a href="#CLASP:NET-SIZE">NET-SIZE</a></h4>
+                      <span/>
+                      <span/>
+                    </code>
+                  </header>
+                  <pre/>
+                </article>
+              </li><li>
+                <a name="CLASP:NET-INSERT-DEVICE"/>
+                <article>
+                  <header>
+                    <span>GENERIC</span>
+                    <code>
+                      <h4><a href="#CLASP:NET-INSERT-DEVICE">NET-INSERT-DEVICE</a></h4>
+                      <span/>
+                      <span>(DEVICE NAME)</span>
+                    </code>
+                  </header>
+                  <pre>Insert new device into network.</pre>
+                </article>
+              </li><li>
+                <a name="CLASP:NET-REMOVE-DEVICE"/>
+                <article>
+                  <header>
+                    <span>GENERIC</span>
+                    <code>
+                      <h4><a href="#CLASP:NET-REMOVE-DEVICE">NET-REMOVE-DEVICE</a></h4>
+                      <span/>
+                      <span>(NAME)</span>
+                    </code>
+                  </header>
+                  <pre>Function for removing device from network.</pre>
+                </article>
+              </li></ul>
+          </li></ul>
+      </article>
+    </div>
+  </body>
+</html>

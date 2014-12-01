@@ -27,11 +27,11 @@
 
 (in-package #:clasp)
 
-(defclass number-array ()
+(defclass equation-vector ()
   ((initial-size
       :initarg :initial-size
       :reader initial-size
-      :initform 0
+      :initform 1
       :documentation "")
     
     (adjustable
@@ -40,60 +40,60 @@
       :initform t
       :documentation "")
     
-    (data-array
-      :reader get-array
+    (data-vector
+      :reader get-vector
       :initform '()
       :documentation "")
-    
     
     (initial-element
       :initarg :initial-element
       :reader initial-element
-      :initform 0.0d0
+      :initform '()
       :documentation "")))
 
-
-
-(defgeneric size (arr)
-  (:documentation "Returns array size."))
-(defmethod size ((arr number-array))
-  (array-dimensions (get-array arr)))
-
-;(defgeneric set-array-value (arr row col value &rest op)
-;  (:documentation "Set new array value."))
-;(defmethod set-array-value ((arr number-array) row col value (op #'+ ))
-;  (let ((var (aref (get-array arr) row col)))
-;    (setf var
-;      (funcall op var value))))
-
-
-(defgeneric set-array-value (arr row col value)
-  (:documentation "Set new array value. In a case that array is less than row/col index ajust array."))
-(defmethod set-array-value ((arr number-array) row col value)
-  (let ((size (size arr))
-      (max-size (max row col)))
-    (unless (< max-size size)
-      (adjust-array (get-array arr) (list max-size max-size)))
-    (let ((var (aref (get-array arr) row col)))
-      (setf var
-        (+ var value)))))
+(defgeneric size (vec)
+  (:documentation "Returns vector size."))
+(defmethod size ((vec equation-vector))
+  (length (get-vector vec)))
 
 
 
-;(defgeneric add-array-value (arr row col op value)
-;  (:documentation "Add new array value."))
-;(defmethod add-array-value ((arr number-array) row col op value)
-;  (adjust-array (get-array arr) (list size size))
-;  (set-array-value (arr row col op value)))
+(defgeneric set-vector-equation (vec pos value)
+  (:documentation "set new vector equation."))
+(defmethod set-vector-equation ((vec equation-vector) pos value)
+  (let ((size (size vec))
+      (initial-element (initial-element vec))
+      (max-index pos))
+    (unless (< max-index size)
+      (adjust-array (get-vector vec) (1+ max-index) :initial-element initial-element ))
+    (push
+      value
+      (aref (get-vector vec) pos))))
 
 
-(defmethod initialize-instance :after ((arr number-array) &key)
+
+
+
+;2
+(defmethod adjust-size ((vec equation-vector) size)
+ (print "Adjust equation-vector")
+  (adjust-array (get-vector vec) size  :initial-element (initial-element vec) ))
+
+
+
+
+;(defgeneric add-vector-equation (vec value)
+;  (:documentation "Add new vector equation."))
+;(defmethod add-vector-equation ((vec equation-vector) value)
+;  (vector-push value (get-vector vec)  ))
+
+(defmethod initialize-instance :after ((vec equation-vector) &key)
   (let
-    ((adjustable (is-adjustable arr))
-      (initial-element (initial-element arr))
-      (initial-size (initial-size arr)))
+    ((adjustable (is-adjustable vec))
+      (initial-element (initial-element vec))
+      (initial-size (initial-size vec)))
     (setf
-      (slot-value arr 'data-array)
-      (make-array (list initial-size initial-size) :initial-element initial-element :adjustable adjustable))))
+      (slot-value vec 'data-vector)
+      (make-array initial-size :initial-element initial-element :adjustable adjustable  ))))
 
 

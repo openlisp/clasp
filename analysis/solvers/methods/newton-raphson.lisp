@@ -28,194 +28,339 @@
 (in-package #:clasp)
 
 
-;;;
-;;; non linear newton raphson
-;;;
+;5
+(defgeneric  map-equations (equations)
+  (:documentation "returns Equations"))
+(defmethod map-equations (equations)
+  (print "Mapping Equations ")
+  (print equations)
 
-(defun residual-test (residual epsilon)
+  (grid:map-grid
+    :source equations
+    :element-function (lambda (x) (coerce (eval-element x) 'double-float))))
+
+;5
+(defgeneric map-numbers (numbers)
+  (:documentation "returns Mapped values"))
+(defmethod map-numbers (numbers)
+  (print "Mapping Numbers")
+  (grid:map-grid
+    :source numbers
+    :element-function (lambda (x) (coerce x 'double-float))))
+
+
+
+
+
+
+
+
+
+
+;tohle je normalni mapovani dane matice
+;3
+(defgeneric eval-value-linear-matrices (m)
+  (:documentation "returns  Evaluation of Value Linear Matrices"))
+(defmethod eval-value-linear-matrices ((m matrice-system))
+  
+  (print "Evaluation of Value Linear Matrices")
+  
+  (adjust-size (get-g-number-array m) (size m)  )
+  (adjust-size (get-e-number-array m) (size m)  )  
+  
+  (grid:map-n-grids
+    :sources
+    (list
+      (list (get-array (get-g-number-array m)) nil)
+      (list (get-array (get-e-number-array m)) nil))
+    :destination-specification `((grid:foreign-array ,(size m) ,(size m)) double-float)
+    :combination-function (lambda (a b) (+ a b))))
+
+
+;4
+
+(defgeneric eval-linear-matrices (m)
+  (:documentation "returns Evaluation of Linear Matrices"))
+(defmethod eval-linear-matrices ((m matrice-system))
+  
+  (print "Evaluation of Linear Matrices")
+  
+  (adjust-size  (get-g-equation-array m) (size m))
+
+
+
+   (print (eval-value-linear-matrices m))
+
+(print "Wait For read")
+(read)
+
+
+
+  (grid:map-n-grids
+    :sources
+    (list
+      (list (eval-value-linear-matrices m) nil)
+      (list  (map-equations (get-array (get-g-equation-array m))) nil))
+    :destination-specification `((grid:foreign-array ,(size m) ,(size m)) double-float)
+    :combination-function (lambda (a b ) (+ a b))))
+
+
+
+;4
+
+(defgeneric eval-jacobian-matrice (m)
+  (:documentation "returns Evaluation of Jacobian Matrice"))
+(defmethod eval-jacobian-matrice ((m matrice-system))
+  (print "Evaluation of Jacobian Matrice")
+  (grid:map-n-grids
+    :sources
+    (list
+      (list (eval-linear-matrices m) nil)
+      (list (map-equations (get-array (get-differetial-equation-array m))) nil))
+    :destination-specification `((grid:foreign-array ,(size m) ,(size m)) double-float)
+    :combination-function (lambda (a b ) (+ a b))))
+
+
+;4
+(defgeneric eval-rhs-vector (m)
+  (:documentation "returns Evaluation of RHS Vector"))
+(defmethod eval-rhs-vector ((m matrice-system))
+  
+  (print "Evaluation of RHS Vector")
+  
+  (adjust-size (get-rhs-equation-vector m) (size m))
+  (adjust-size (get-rhs-number-vector m) (size m))  
+  
+  (print (get-vector (get-rhs-equation-vector m)))
+  
+  (grid:map-n-grids
+    :sources
+    (list
+      (list  (map-equations (get-vector (get-rhs-equation-vector m))) nil)
+      (list  (map-numbers (get-vector (get-rhs-number-vector m )))   nil))
+    
+    :combination-function (lambda (a b) (+ a b) )
+    :destination-specification `((grid:foreign-array ,(size m)) double-float)))
+
+
+
+
+;4
+(defgeneric eval-nonlinear-equation-vector (m)
+  (:documentation "returns Evaluation of Nonlinear Equation Vector"))
+(defmethod eval-nonlinear-equation-vector ((m matrice-system))
+  (print "Evaluation of Nonlinear Equation Vector")
+  
+  (adjust-size (get-nonlinear-equation-vector m) (size m)  )
+
+
+(print (map-equations  (get-vector (get-nonlinear-equation-vector m))))
+  (map-equations  (get-vector (get-nonlinear-equation-vector m))))
+
+
+
+
+;5
+
+
+(defgeneric eval-linear-matrice-product (m new-value-vector)
+  (:documentation "returns Evaluation of Linear Matrice Product"))
+(defmethod eval-linear-matrice-product ((m matrice-system) new-value-vector)
+  (print "Evaluation of Linear Matrice Product")
+  
+  (print (eval-value-linear-matrices m))
+  (print "after eval-value-linear-matrices m") 
+
+  (print new-value-vector)
+  (print "after new-value-vector")
+
+  (gsll:matrix-product
+    (eval-value-linear-matrices m)
+    new-value-vector))
+
+
+
+
+; 5
+
+
+(defgeneric eval-lhs-vector (m new-value-vector)
+  (:documentation "return Evaluation of LHS Vector"))
+(defmethod eval-lhs-vector ((m matrice-system) new-value-vector)
+  
+  (print "Evaluation of LHS Vector")
+  
+(print (eval-linear-matrice-product m new-value-vector))
+
+    (print "Righ After eval-linear-matrice-product m new-value-vector")
+
+(print (eval-nonlinear-equation-vector m))
+    (print "Righ After eval-nonlinear-equation-vector m")
+
+
+  (grid:map-n-grids
+    :sources
+    (list
+      (list (eval-linear-matrice-product m new-value-vector) nil)
+      (list (eval-nonlinear-equation-vector m) nil))
+    
+    :combination-function (lambda (a b) (+ a b))
+    :destination-specification `((grid:foreign-array ,(size m)) double-float)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+; Eval value vector je takova specialni eval funkce ktera by mela jit neka m do mapovani
+
+(defun eval-value-vector (value-vector rhs-vector size )
+  
+  (print "Evaluation of New Value Vector")
+  (grid:map-n-grids
+    :sources
+    (list
+      (list value-vector nil)
+      (list rhs-vector nil))
+    :destination-specification `((grid:foreign-array ,size) double-float)
+    :combination-function (lambda (a b) (+ a b))))
+
+
+
+
+
+
+
+
+
+
+(defun eval-nr-residual (old-rhs-vector rhs-vector)
+  (-
+    (gsl:euclidean-norm old-rhs-vector)
+    (gsl:euclidean-norm rhs-vector)))
+
+
+
+
+
+
+(defun eval-nr-residual-test (residual epsilon)
   (if (< (abs residual) epsilon)
     t
     nil))
 
 
-(defun symbol-eval (x)
-  (if (symbolp x)
-    (funcall x)
-     x))
 
-(defmethod solver-newton-raphson ((m matrice-system) (var-arr class-variables) i epsilon max-iter)
-  (format t "~%~%Solver: Newton Raphson~% Matrix-dimesion: ~d~%Epsilon: ~d~%Max Iter: ~d~%" i epsilon max-iter)
+(defun generate-random-vector(random-number-generator source-vector size)
+  
+  (grid:map-grid
+    :source source-vector
+    :destination-specification `((grid:foreign-array ,size ) double-float)
+    :element-function (lambda (x) (coerce (+ x  (gsl:sample random-number-generator :gaussian :sigma 2.0d0) )  'double-float))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defgeneric solver-newton-raphson (m var-arr epsilon max-iter)
+  (:documentation "evaluate matrix set using Newton Raphson Method"))
+
+(defmethod solver-newton-raphson ((m matrice-system) (var-arr class-variables) epsilon max-iter)
+  (format t "~%~%Solver: Newton Raphson~% Matrix-dimesion: ~d~%Epsilon: ~d~%Max Iter: ~d~%" (size m) epsilon max-iter)
   
   (let* (
-      
-      
       (roulete (gsl:make-random-number-generator gsl:+CMRG+ 0))
-      
-      (linear-matrices
-        (grid:map-n-grids
-          :sources
-          (list
-            (list (get-sub-g-array m 1 1 i i) nil)
-            (list (get-sub-e-array m 1 1 i i) nil))
-          :destination-specification `((grid:foreign-array ,i ,i) double-float)
-          :combination-function (lambda (a b) (+ a b))))
-      (residual 0)
-      ; (new-value-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.6d0)))
-      
-      (old-rhs-vector (grid:make-foreign-array 'double-float :dimensions (list i) :initial-element 0.0d0))
-      )
+     ; (max-iter 10)  ;; only debug purposes
+      (old-rhs-vector (grid:make-foreign-array 'double-float :dimensions (list (size m)) :initial-element 0.0d0))
+      (new-value-vector (generate-random-vector roulete old-rhs-vector (size m) )))
     
-    ;(print "Sleeping")
     
-    ; (sleep 10)
     (print 1)
-    
-    
-    ;;debug
-    (setf max-iter 10)
-    
-    
-    (setf new-value-vector
-      (grid:map-grid
-        :source old-rhs-vector
-        :destination-specification `((grid:foreign-array ,i ) double-float)
-        :element-function (lambda (x) (coerce (+ x  (gsl:sample roulete :gaussian :sigma 2.0d0) )  'double-float))))
-    
-    
-    
-    (print 2)
-    
     (loop for iter from 0
       	 while (< iter max-iter)
       	   initially
       
-      (iter:iter(iter:for k from 1 below (size m))
-        (set (grid:gref (stack m) k)  (grid:gref new-value-vector (- k 1))))	
+      (iter:iter(iter:for k from 0 below (size m))
+        (set (grid:gref (get-variable-label-vector m) (1+ k))  (grid:gref new-value-vector k )))
       
       	 do
       	
-      	
-      (format t "~%Iteration Number: ~d/~d~%" iter max-iter)
-    ;  (print "something 1 ")
-    ;  (print (get-sub-gd-array m 1 1 i i)  )
-   ;   (print "something 2 ")
-    ;  (print (get-sub-d-array m 1 1 i i))
-    ;  (print "something 3")
-   ;   (sleep 10)
+      	(print 2)
+      
+      (print (eval-rhs-vector m))
+      	(print "2a")
+      
+      (print (eval-lhs-vector m new-value-vector))
+      	(print "2b")
       
       
       (let* (
           
-
-          (value-linear-matrices
-            (grid:map-n-grids
-              :sources
-              (list
-                (list linear-matrices nil)
-                (list
-                  (grid:map-grid
-                    :source (get-sub-gd-array m 1 1 i i)
-                    :element-function (lambda (x) (coerce (if  (eq x nil)  0.0d0 (apply #'+  (mapcar #'symbol-eval x)))  'double-float)))  nil))
-              :destination-specification `((grid:foreign-array ,i ,i) double-float)
-              :combination-function (lambda (a b ) (+ a b))))
-          ;  (coerce  (if  (eq x nil)  0.0d0  x) 'double-float)
-          
-         
-           (jacobian-matrix
-            (grid:map-n-grids
-              :sources
-              (list
-                (list value-linear-matrices nil)
-                (list
-                  (grid:map-grid
-                    :source (get-sub-d-array m 1 1 i i)
-                    :element-function (lambda (x) (coerce (if  (eq x nil)  0.0d0 (apply #'+  (mapcar #'symbol-eval x)))  'double-float)))  nil))
-              :destination-specification `((grid:foreign-array ,i ,i) double-float)
-              :combination-function (lambda (a b ) (+ a b))))
-          
-           ;rhs vector
+          ; (value-linear-matrices (eval-value-linear-matrices m))
+          (jacobian-matrice (eval-jacobian-matrice m))
           (rhs-vector
             (grid:map-n-grids
               :sources
               (list
-                (list ;rhs equations
-                  (grid:map-grid
-                    :source (get-sub-rhs-equations-vector m 1 i) ;rhs equations
-                    :element-function (lambda (x) (coerce (if  (eq x nil)  0.0d0 (apply #'+  (mapcar #'symbol-eval x))) 'double-float))) nil)
-                (list ;rhs values
-                  (grid:map-grid
-                    :source (get-sub-rhs-number-vector m 1 i) ;rhs values
-                    :element-function (lambda (x) (coerce  (if  (eq x nil)  0.0d0  x) 'double-float))) nil)
-                (list
-                  (gsll:matrix-product
-                    value-linear-matrices
-                    new-value-vector) nil) ; linear vector
-                (list
-                  (grid:map-grid
-                    :source (get-sub-equations-vector m 1 i)  ; non linear equations
-                    :element-function (lambda (x) (coerce (if  (eq x nil)  0.0d0 (apply #'+  (mapcar #'symbol-eval x)))  'double-float))) nil))
+                (list (eval-rhs-vector m) nil)
+                (list (eval-lhs-vector m new-value-vector) nil))
               
-              :combination-function (lambda (a b c d) (- (+ a b) (+ c d )))
-              :destination-specification `((grid:foreign-array ,i) double-float)))
-         
-          
-          )
+              :combination-function (lambda (a b) (- a b))
+              :destination-specification `((grid:foreign-array ,(size m)) double-float))))
         
         
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        (print 3)
+        (format t "~%Iteration Number: ~d/~d~%" iter max-iter)
         
-        
-        ;(print (grid:map-grid
-        ;                   :source (get-sub-equations-vector m 1 (size m))  ; non linear equations
-        ;                  :element-function (lambda (x) (coerce (apply #'+ (mapcar #'funcall x))  'double-float))))
-        (print "we got thourh")
-
-         (sleep 30)
-        
-        
-        
-        (setf residual
-          (-
-            (gsl:euclidean-norm old-rhs-vector)
-            (gsl:euclidean-norm rhs-vector)))
-        
-        (print "residual ")
-        (print residual)
-        
-        (if (and (residual-test residual epsilon) (> iter 0))
+        (setf residual (eval-nr-residual old-rhs-vector rhs-vector))
+        (print 4)
+        (if (and (eval-nr-residual-test residual epsilon) (> iter 0))
           (progn
-            (print-state iter new-value-vector i residual)
+            (print-state iter new-value-vector (size m) residual)
             (return t))
           (progn
             (setf old-rhs-vector rhs-vector)))
         
-        
-        
+        (print 5)
         (multiple-value-bind
-          (jacobian-matrix perm)
-          (gsl:lu-decomposition jacobian-matrix)
-          (ignore-errors (gsl:lu-solve jacobian-matrix rhs-vector perm)))
+          (jacobian-matrice perm)
+          (gsl:lu-decomposition jacobian-matrice)
+          (ignore-errors (gsl:lu-solve jacobian-matrice rhs-vector perm)))
         
+        (print 6)
+        (setf new-value-vector (eval-value-vector new-value-vector rhs-vector  (size m) ))
         
-        (setf new-value-vector
-          (grid:map-n-grids
-            :sources
-            (list
-              (list new-value-vector nil)
-              (list rhs-vector nil))
-            :destination-specification `((grid:foreign-array ,i) double-float)
-            
-            :combination-function (lambda (a b) (+ a b))))
+        (print 7)
+        (print-state iter new-value-vector (size m) residual)
+        ;        (set-symbol-var-value var-arr *time-pos* 1 (grid:gref new-value-vector (- k 1))) ; weird TODO delete
         
-        (print-state iter new-value-vector i residual)
-        (set-symbol-var-value var-arr *time-pos* 1 (grid:gref new-value-vector (- 1 1)))
-        
-        (iter:iter (iter:for k from 1 below (size m))
-          (set-symbol-var-value var-arr *time-pos* k (grid:gref new-value-vector (- k 1)))
-          (set (grid:gref (stack m) k)  (grid:gref new-value-vector (- k 1)))))
+        (iter:iter (iter:for k from 0 below  (size m))
+          (set-symbol-var-value var-arr *time-pos* k (grid:gref new-value-vector k ))
+          (set (grid:gref (get-variable-label-vector m) (1+ k))  (grid:gref new-value-vector k )))
+        (print 8)
+        )
       
       finally
-      (print-state iter new-value-vector i residual)
+      (print-state iter new-value-vector (size m) residual)
       (incf *not-convergency*)
-      (return nil))))
+      (return nil))
+    
+    
+    
+    ))
 

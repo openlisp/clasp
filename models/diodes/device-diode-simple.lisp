@@ -83,19 +83,28 @@
         (i        (make-var-name 'i (name  d))))
 
     
-        (set-g-value m v+ i #'+  1)
-        (set-g-value m v- i #'+ -1)        
-        (set-g-value m i  i #'+ -1)
+  ;      (set-g-value m v+ i #'+  1)
+   ;     (set-g-value m v- i #'+ -1)        
+   ;     (set-g-value m i  i #'+ -1)
+
+    (setf (g-number-array v+ i m) 1)   
+    (setf (g-number-array v- i m) -1)   
+    (setf (g-number-array i i m) -1)  
         
       ;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
-        (set-equations-value m i (diode-simple-current d v+ v-)) 
+    ;    (set-equations-value m i (diode-simple-current d v+ v-)) 
 
-        (set-d-value m i  v+  (diode-simple-current-dv+ d v+ v-))        
-        (set-d-value m i  v-  (diode-simple-current-dv- d v+ v-))
+    ;    (set-d-value m i  v+  (diode-simple-current-dv+ d v+ v-))        
+    ;    (set-d-value m i  v-  (diode-simple-current-dv- d v+ v-))
         
       ;factory starting predict   
+
+    (setf (nonlinear-equation-vector i m)  (diode-current d v+ v-))
+    (setf (differetial-equation-array i v+ m) (diode-current-dv+ d v+ v-))
+    (setf (differetial-equation-array i v- m)   (diode-current-dv- d v+ v-))
+
  
-        (set-rhsl-start-value m i #'+ 0.05d0)
+;        (set-rhsl-start-value m i #'+ 0.05d0)
         
          ))
         

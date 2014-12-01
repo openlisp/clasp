@@ -5,7 +5,7 @@
 ;;
 
 ; Resistor class definition
-(defclass class-resistor (class-device)
+(defclass class-experimental-resistor (class-device)
   ((name  :initarg :name
           :accessor name)
    (node+ :initarg :node+
@@ -19,7 +19,7 @@
 ;       | voltage-var |   | rhs-current |
 ;  G *  |-------------| = |-------------|    
 ;       | current-var |   | rhs-voltage |           
-(defmethod  map-device ((d class-resistor) (m matrice-system))
+(defmethod  map-device ((d class-experimental-resistor) (m matrice-system))
   (let ((v+       (make-var-node 'v (node+ d)))
         (v-       (make-var-node 'v (node- d)))
         (g    (/ 1 (value d)))) ;; not used definition
@@ -27,10 +27,10 @@
 
 (print "mapping resistor")
 
-    (setf (g-number-array v+ v+ m) g)              
-    (setf (g-number-array v+ v- m) (- g)) 
-    (setf (g-number-array v- v+ m) (- g)) 
-    (setf (g-number-array v- v- m) g) 
+    (setf (g-equation-array v+ v+ m) g)              
+    (setf (g-equation-array v+ v- m) (- g)) 
+    (setf (g-equation-array v- v+ m) (- g)) 
+    (setf (g-equation-array v- v- m) g) 
  
 
 ))
@@ -53,9 +53,9 @@
 ; r name node1 node2 value
 ; example:
 ; (R "R1" 1 2 100) 
-(defun r (name node+ node- value)
+(defun rex (name node+ node- value)
   (net-insert-device 
-    (make-instance 'class-resistor 
+    (make-instance 'class-experimental-resistor 
                 :name name
                 :node+ node+
                 :node- node-

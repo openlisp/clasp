@@ -98,10 +98,22 @@
 
     
 
-       (set-g-value m i  v+  #'+  1)
-       (set-g-value m i  v-  #'-  1)
-       (set-g-value m v+ i   #'+  1)
-       (set-g-value m v- i   #'-  1)
+  ;     (set-g-value m i  v+  #'+  1)
+  ;     (set-g-value m i  v-  #'-  1)
+  ;     (set-g-value m v+ i   #'+  1)
+  ;     (set-g-value m v- i   #'-  1)
+
+  ; (set-rhs-equations-value m i volfun)
+
+    (setf (g-number-array i v+  m)   1)
+    (setf (g-number-array i v-  m)  -1)
+    (setf (g-number-array v+ i  m)   1)
+    (setf (g-number-array v- i  m)  -1)
+
+
+    (setf (rhs-equations-vector i m)  volfun)
+
+
 
 
      ;   (set-gd-value m i  v+  (voltage-source-polarity+ volfun v+ v-))        
@@ -120,7 +132,10 @@
 
 ;RHS        
 ;(print "voltage rhs vector")
-        (set-rhs-equations-value m i volfun)))
+     
+
+
+))
  
  
 ; Function for easy source definition

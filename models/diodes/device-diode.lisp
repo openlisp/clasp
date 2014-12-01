@@ -112,18 +112,29 @@
         ;(vc      `(symbol-var v ,(node- d))))
 ;G matrix
     
-        (set-g-value m v+ i #'+  1)
-        (set-g-value m v- i #'+ -1)        
-        (set-g-value m i  i #'+ -1)
+    (setf (g-number-array v+ i m) 1)   
+    (setf (g-number-array v- i m) -1)   
+    (setf (g-number-array i i m) -1)   
+
+
+;        (set-g-value m v+ i #'+  1)
+;        (set-g-value m v- i #'+ -1)        
+;        (set-g-value m i  i #'+ -1)
         
       ;  (set-rhs-value m i #'+ (diode-current d))    ;rhska je v tomhle zapisu nula
-        (set-equations-value m i (diode-current d v+ v-)) 
+ 
+     ;  (set-equations-value m i (diode-current d v+ v-)) 
 
-        (set-d-value m i  v+  (diode-current-dva d v+ v-))        
-        (set-d-value m i  v-  (diode-current-dvc d v+ v-))))
+   ;     (set-d-value m i  v+  (diode-current-dva d v+ v-))        
+     ;   (set-d-value m i  v-  (diode-current-dvc d v+ v-))))
         
+    (setf (nonlinear-equation-vector i m)  (diode-current d v+ v-))
+    (setf (differetial-equation-array i v+ m) (diode-current-dva d v+ v-))
+    (setf (differetial-equation-array i v- m)   (diode-current-dvc d v+ v-))
         
-        
+
+
+))
  
   ;; apply car a  cdr a       
  ;;(setf a `(,f 1 2))

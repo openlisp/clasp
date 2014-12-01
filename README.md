@@ -14,6 +14,9 @@ loading agter install
 # Change Log
 
 
+## 1.12. Big application refactor 
+
+
 ## 19.11. Added documentation support
 
 

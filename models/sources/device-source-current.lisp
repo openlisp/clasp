@@ -29,8 +29,16 @@
         (n-       (make-var-node 'v (node- d)))
         (i        (current d)))
                 
-        (set-rhs-number-value m n+  #'- i)    
-        (set-rhs-number-value m n-  #'+ i)))
+;        (set-rhs-number-value m n+  #'- i)    
+;        (set-rhs-number-value m n-  #'+ i)
+
+
+
+
+    (setf (rhs-number-vector n+ m)  (- i))
+
+    (setf (rhs-number-vector n- m)  i)
+))
 
         
 ;pROBABLU NOT NEEDED  

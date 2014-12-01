@@ -24,7 +24,7 @@
 ;;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-;set-g-value
+;set-g-value happend
 
 (require "asdf")
 
@@ -34,8 +34,8 @@
 (ql:quickload "antik")
 
 ; added due staple requirements
-(require :sb-introspect)
-(ql:quickload :staple)
+;(require :sb-introspect)
+;(ql:quickload :staple)
 
 
 
@@ -47,7 +47,7 @@
 
 (format t "CLASP Inicialization finished.~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
 
-(staple:generate :clasp)
+;(staple:generate :clasp)
 
 ; Initial testing circuit. 
 ;(clasp:test-trans-ni-simple-capacitor)
@@ -56,7 +56,7 @@
 ;(clasp:test-trans-bipolar-transistor)
 
 
-;(clasp:test-solvers)
+(clasp:test-solvers)
 
 
 ;Exit

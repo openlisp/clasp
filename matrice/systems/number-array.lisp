@@ -27,16 +27,11 @@
 
 (in-package #:clasp)
 
-(defclass equation-array ()
+(defclass number-array ()
   ((initial-size
       :initarg :initial-size
       :reader initial-size
-      :initform 0
-      :documentation "")
-    
-    (data-array
-      :reader get-array
-      :initform '()
+      :initform 1
       :documentation "")
     
     (adjustable
@@ -45,6 +40,12 @@
       :initform t
       :documentation "")
     
+    (data-array
+      :reader get-array
+      :initform '()
+      :documentation "")
+    
+    
     (initial-element
       :initarg :initial-element
       :reader initial-element
@@ -52,38 +53,60 @@
       :documentation "")))
 
 
+
 (defgeneric size (arr)
   (:documentation "Returns array size."))
+(defmethod size ((arr number-array))
+  (car (array-dimensions (get-array arr))))
 
-(defmethod size ((arr equation-array))
-  (array-dimensions (get-array arr)))
+;(defgeneric set-array-value (arr row col value &rest op)
+;  (:documentation "Set new array value."))
+;(defmethod set-array-value ((arr number-array) row col value (op #'+ ))
+;  (let ((var (aref (get-array arr) row col)))
+;    (setf var
+;      (funcall op var value))))
 
 
-(defgeneric set-array-equation (arr row col value)
-  (:documentation "Set new array equation."))
-(defmethod set-array-equation ((arr equation-array) row col value)
+(defgeneric set-array-value (arr row col value)
+  (:documentation "Set new array value. In a case that array is less than row/col index ajust array."))
+(defmethod set-array-value ((arr number-array) row col value)
+  (print "SET ARRAY VALUE UUUU setfd")
   (let ((size (size arr))
-      (max-size (max row col)))
-    (unless (< max-size size)
-      (adjust-array (get-array arr) (list max-size max-size)))
-      (push value (aref var row col))))
+      (initial-element (initial-element arr))
+      (max-index (max row col)))
+
+    (print "what the fuck")
+    (unless (< max-index size)
+      (adjust-array (get-array arr) (list (1+ max-index) (1+ max-index)) :initial-element initial-element))
+    (let ((var (aref (get-array arr) row col)))
+      (print "before setfd value:")
+      (print (+ var value))
+      (print "done")
+      (setf (aref (get-array arr) row col)
+        (+ var value))
+         (print (aref (get-array arr) row col))
+
+)))
+
+
+
+
+(defmethod adjust-size ((arr number-array) size)
+ (print "Adjust number-array")
+  (adjust-array (get-array arr) (list size size) :initial-element (initial-element arr) ))
 
 
 
 
 
-
-
-
-;(defgeneric add-array-equation (arr row col value)
-;  (:documentation "Add new array equation."))
-;(defmethod add-array-equation ((arr equation-array) row col value)
+;(defgeneric add-array-value (arr row col op value)
+;  (:documentation "Add new array value."))
+;(defmethod add-array-value ((arr number-array) row col op value)
 ;  (adjust-array (get-array arr) (list size size))
-;  (set-array-equation (arr row col value)))
+;  (set-array-value (arr row col op value)))
 
 
-
-(defmethod initialize-instance :after ((arr equation-array) &key)
+(defmethod initialize-instance :after ((arr number-array) &key)
   (let
     ((adjustable (is-adjustable arr))
       (initial-element (initial-element arr))
@@ -91,6 +114,5 @@
     (setf
       (slot-value arr 'data-array)
       (make-array (list initial-size initial-size) :initial-element initial-element :adjustable adjustable))))
-
 
 

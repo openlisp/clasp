@@ -61,7 +61,8 @@
   (print "Device maping started")
   (maphash #'(lambda (name device)
       (format nil "Mapping device ~a ~a ~%" name device)
-      (map-device device m))
+      (map-device device m)
+      )
     *net*)
   (print "Device maping finished"))
 
